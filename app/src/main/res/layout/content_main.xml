@@ -68,8 +68,10 @@
 
             <fragment
                 android:id="@+id/list_fragment"
+                class="com.jankrav.learnretrofitusingfragmens.ChoseRepoFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
         </LinearLayout>
         <!--detail_fragment-->
         <LinearLayout
@@ -80,6 +82,7 @@
             android:layout_weight="1">
 
             <fragment
+                class="com.jankrav.learnretrofitusingfragmens.DetailRepoFragment"
                 android:id="@+id/detail_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
