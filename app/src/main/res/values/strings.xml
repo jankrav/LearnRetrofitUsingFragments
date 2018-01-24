@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LearnRetrofitUsingFragmens</string>
+    <string name="action_settings">Settings</string>
+    <string name="defaultBranch">default branch: </string>
+    <string name="watchers">Watchers: </string>
+    <string name="language">Language: </string>
+    <string name="description">Description: </string>
+    <string name="repoName">Name: </string>
+    <string name="repoView">Repositories</string>
+    <string name="login">developer login</string>
+    <string name="default_name_repo_field">no-name-repository</string>
+    <string name="default_language_field">language is not specified</string>
+    <string name="default_description_field">Repository hasn\'t any description!</string>
+</resources>
