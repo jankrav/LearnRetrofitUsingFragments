@@ -57,15 +57,6 @@
             android:textSize="20sp"
             android:textStyle="bold|italic" />
 
-        <TextView
-            android:id="@+id/repoView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/repoView"
-            android:textSize="20sp"
-            android:textStyle="bold|italic" />
     </LinearLayout>
 
 

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements GitHubRepoAdapter
     private DetailRepoFragment detail = new DetailRepoFragment();
     private ChooseRepoFragment chooser = new ChooseRepoFragment();
     private FragmentTransaction transaction;
-    private RecyclerView testRecycler;
+//    private RecyclerView testRecycler;
     private TextView login;
     private ImageView avatarPhoto;
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements GitHubRepoAdapter
     protected void onStart() {
         super.onStart();
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = chooser.getRecyclerView();
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         client = ServiceGenerator.getDefaultService();
         Call<List<GitHubRepo>> call = client.reposForUser("jankrav");
@@ -117,13 +117,15 @@ public class MainActivity extends AppCompatActivity implements GitHubRepoAdapter
 
     @Override
     public void onClickRepo(int id) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, detail);
+//        transaction.addToBackStack(null);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit();
+
         detail.showRepoInfo(
                 repos.get(id).getOwner().getLogin(),
                 repos.get(id).getName()
         );
-        transaction.replace(R.id.fragment_container, detail);
-        transaction.addToBackStack(null);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        transaction.commit();
     }
 }
