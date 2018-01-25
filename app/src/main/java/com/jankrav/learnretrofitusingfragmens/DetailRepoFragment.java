@@ -3,6 +3,7 @@ package com.jankrav.learnretrofitusingfragmens;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,17 @@ public class DetailRepoFragment extends Fragment {
             @Override
             public void onResponse(Call<GitHubRepo> call, Response<GitHubRepo> response) {
                 GitHubRepo repo = response.body();
-                name.setText(repo.getName());
-                language.setText(repo.getDescription());
-                description.setText(repo.getDescription());
-                watchers.setText(repo.getWatchers().toString());
-                defaultBranch.setText(repo.getDefaultBranch());
+
+                if(!TextUtils.isEmpty(repo.getName()))
+                    name.setText(repo.getName());
+                if(!TextUtils.isEmpty(repo.getLanguage()))
+                    language.setText(repo.getLanguage());
+                if(!TextUtils.isEmpty(repo.getDescription()))
+                    description.setText(repo.getDescription());
+                if(!TextUtils.isEmpty(repo.getWatchers().toString()))
+                    watchers.setText(repo.getWatchers().toString());
+                if(!TextUtils.isEmpty(repo.getDefaultBranch()))
+                    defaultBranch.setText(repo.getDefaultBranch());
             }
 
             @Override
@@ -55,6 +62,7 @@ public class DetailRepoFragment extends Fragment {
             }
         });
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

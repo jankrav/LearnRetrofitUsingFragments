@@ -4,96 +4,88 @@
     android:layout_height="match_parent"
     tools:context="com.jankrav.learnretrofitusingfragmens.DetailRepoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_medium">
 
+            <!--name-->
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/default_name_repo_field"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+            <!--language-->
+            <TextView
+                android:id="@+id/language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/name"
+                android:layout_below="@id/name"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="6dp"
+                android:text="@string/default_language_field"
+                android:textColor="@color/colorYellow"
+                android:textSize="16sp" />
 
-            <RelativeLayout
+            <!--description-->
+            <TextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/margin_medium">
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/language"
+                android:layout_below="@id/language"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/default_description_field"
+                android:textSize="18dp"
+                android:textStyle="italic" />
 
+            <!--watchers-->
+            <TextView
+                android:id="@+id/textWatchers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/description"
+                android:layout_below="@id/description"
+                android:text="@string/watchers" />
 
-                <!--name-->
+            <TextView
+                android:id="@+id/watchers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/textWatchers"
+                android:layout_alignLeft="@id/defaultBranch"
+                android:layout_toRightOf="@id/textWatchers"
+                android:text="0" />
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="@string/default_name_repo_field"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+            <!--defaultBranch-->
+            <TextView
+                android:id="@+id/defaultBranchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/textWatchers"
+                android:layout_below="@id/textWatchers"
+                android:text="@string/defaultBranch" />
 
-                <TextView
-                    android:id="@+id/language"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/name"
-                    android:layout_below="@id/name"
-                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/default_language_field"
-                    android:textColor="@color/colorYellow"
-                    android:textSize="16sp" />
+            <TextView
+                android:id="@+id/defaultBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/defaultBranchText"
+                android:layout_marginLeft="@dimen/activity_component_margin"
+                android:layout_toRightOf="@id/defaultBranchText"
+                android:text="master" />
+        </RelativeLayout>
 
-
-                <!--description-->
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/language"
-                    android:layout_below="@id/language"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:text="@string/default_description_field"
-                    android:textSize="18dp"
-                    android:textStyle="italic" />
-
-                <!--watchers-->
-                <TextView
-                    android:id="@+id/textWatchers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/description"
-                    android:layout_below="@id/description"
-                    android:text="@string/watchers" />
-
-                <TextView
-                    android:id="@+id/watchers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/textWatchers"
-                    android:layout_marginLeft="@dimen/activity_component_margin"
-                    android:layout_toRightOf="@id/textWatchers"
-                    android:text="0" />
-
-                <!--defaultBranch-->
-                <TextView
-                    android:id="@+id/defaultBranchText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/textWatchers"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_toRightOf="@id/watchers"
-                    android:text="@string/defaultBranch" />
-
-                <TextView
-                    android:id="@+id/defaultBranch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/defaultBranchText"
-                    android:layout_marginLeft="@dimen/activity_component_margin"
-                    android:layout_toRightOf="@id/defaultBranchText"
-                    android:text="master" />
-            </RelativeLayout>
-
-        
     </ScrollView>
 
 </FrameLayout>
