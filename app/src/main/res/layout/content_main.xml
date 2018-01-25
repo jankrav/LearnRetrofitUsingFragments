@@ -71,43 +71,15 @@
 
     <!--repository list-->
     <LinearLayout
-        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
         android:orientation="horizontal">
 
-        <!--recyclerviewfragment-->
-        <LinearLayout
-            android:id="@+id/recyclerContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="@dimen/margin_tiny">
-
-            <fragment
-                android:id="@+id/choose_fragment"
-                class="com.jankrav.learnretrofitusingfragmens.ChooseRepoFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <!--detail_fragment-->
-        <LinearLayout
-            android:id="@+id/dataContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="@dimen/margin_tiny">
-
-            <fragment
-                android:id="@+id/detail_fragment"
-                class="com.jankrav.learnretrofitusingfragmens.DetailRepoFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

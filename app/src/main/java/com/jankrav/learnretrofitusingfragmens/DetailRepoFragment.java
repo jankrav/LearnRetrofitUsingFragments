@@ -41,7 +41,6 @@ public class DetailRepoFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     //must find repo by properties
     public void showRepoInfo(@NonNull String owner, @NonNull String repo) {
 

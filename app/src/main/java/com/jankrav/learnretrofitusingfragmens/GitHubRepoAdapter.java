@@ -13,24 +13,34 @@ import java.util.List;
 
 class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
-    private DetailRepoFragment detailRepoFragment;
-    public GitHubRepoAdapter(List<GitHubRepo> repos, DetailRepoFragment detailRepoFragment) {
+//    private DetailRepoFragment detailRepoFragment;
+
+
+    public GitHubRepoAdapter(List<GitHubRepo> repos, OnChooseItemListener listener) {
         this.repos = repos;
-        this.detailRepoFragment = detailRepoFragment;
+        this.listener = listener;
     }
 
-    protected class Holder extends RecyclerView.ViewHolder{
-        private TextView repoName ;
+    protected class Holder extends RecyclerView.ViewHolder {
+        private TextView repoName;
 
         public Holder(View itemView) {
             super(itemView);
             repoName = itemView.findViewById(R.id.list_item_repo_name);
         }
     }
+
+    static interface OnChooseItemListener {
+        void onClickRepo(int id);
+    }
+
+    private OnChooseItemListener listener;
+
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new Holder(inflater.inflate(R.layout.list_item_recycler_view, parent,false));
+        return new Holder(inflater.inflate(R.layout.list_item_recycler_view, parent, false));
     }
 
     @Override
@@ -39,8 +49,8 @@ class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
         holder.repoName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                detailRepoFragment.showRepoInfo(repos.get(position).getOwner().getLogin(),
-                                                repos.get(position).getName());
+                if (listener != null)
+                    listener.onClickRepo(position);
             }
         });
     }

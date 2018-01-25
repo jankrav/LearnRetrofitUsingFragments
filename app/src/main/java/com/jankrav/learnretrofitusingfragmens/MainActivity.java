@@ -1,5 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,42 +24,63 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GitHubRepoAdapter.OnChooseItemListener {
 
     private GitHubClient client;
     private RecyclerView recyclerView;
+    private List<GitHubRepo> repos;
+    private DetailRepoFragment detail = new DetailRepoFragment();
+    private ChooseRepoFragment chooser = new ChooseRepoFragment();
+    private FragmentTransaction transaction;
+    private RecyclerView testRecycler;
+    private TextView login;
+    private ImageView avatarPhoto;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final DetailRepoFragment detailRepoFragment =
-                (DetailRepoFragment) getFragmentManager().findFragmentById(R.id.detail_fragment);
+        login = findViewById(R.id.login);
+        avatarPhoto = findViewById(R.id.avatarPhoto);
+
+        transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, chooser);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+//        View view;
+//        view = findViewById(R.layout.fragment_choose_repo);
+//        testRecycler = view.findViewById(R.id.recyclerView);
 
 
-        final TextView login = findViewById(R.id.login);
-        final ImageView avatarPhoto = findViewById(R.id.avatarPhoto);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         client = ServiceGenerator.getDefaultService();
-
         Call<List<GitHubRepo>> call = client.reposForUser("jankrav");
         call.enqueue(new Callback<List<GitHubRepo>>() {
             @Override
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
-                List<GitHubRepo> repos = response.body();
+                repos = response.body();
 
                 Picasso.with(MainActivity.this)
                         .load(repos.get(0).getOwner().getAvatarUrl())
                         .into(avatarPhoto);
                 login.setText(repos.get(0).getOwner().getLogin());
-                recyclerView.setAdapter(new GitHubRepoAdapter(repos, detailRepoFragment));
+
+
+                recyclerView.setAdapter(new GitHubRepoAdapter(repos, MainActivity.this));
             }
 
             @Override
@@ -90,5 +113,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClickRepo(int id) {
+        detail.showRepoInfo(
+                repos.get(id).getOwner().getLogin(),
+                repos.get(id).getName()
+        );
+        transaction.replace(R.id.fragment_container, detail);
+        transaction.addToBackStack(null);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit();
     }
 }
