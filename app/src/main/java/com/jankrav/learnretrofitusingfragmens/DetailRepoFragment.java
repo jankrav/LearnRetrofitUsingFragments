@@ -3,6 +3,7 @@ package com.jankrav.learnretrofitusingfragmens;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +24,17 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class DetailRepoFragment extends Fragment {
-    private static String OWNER_KEY = "1998";
-    private static String REPO_KEY  = "2502";
-    private String owner,repo;
+    private static String REPO_KEY = "2502";
+    private static String DESCRIPTION_KEY = "1998";
+    private static String LANGUAGE_KEY = "1301";
+    private static String BRANCH_KEY = "1997";
+    private static String WATCHERS_KEY = "1972";
+
+    private String owner, repo;
     private TextView name, language, description, watchers, defaultBranch;
+
+
     private View fragmentView;
-
-
     private GitHubClient client;
 
     public DetailRepoFragment() {
@@ -38,7 +43,7 @@ public class DetailRepoFragment extends Fragment {
 
 
     //must find repo by properties
-    public void showRepoInfo(String owner, String repo) {
+    public void showRepoInfo(@NonNull String owner, @NonNull String repo) {
 
         client = ServiceGenerator.getDefaultService();
         Call<GitHubRepo> call = client.repoForUser(owner, repo);
@@ -46,31 +51,33 @@ public class DetailRepoFragment extends Fragment {
             @Override
             public void onResponse(Call<GitHubRepo> call, Response<GitHubRepo> response) {
                 GitHubRepo repo = response.body();
-
-                if(!TextUtils.isEmpty(repo.getName()))
+                if (!TextUtils.isEmpty(repo.getName()))
                     name.setText(repo.getName());
-                if(!TextUtils.isEmpty(repo.getLanguage()))
+                if (!TextUtils.isEmpty(repo.getLanguage()))
                     language.setText(repo.getLanguage());
-                if(!TextUtils.isEmpty(repo.getDescription()))
+                if (!TextUtils.isEmpty(repo.getDescription()))
                     description.setText(repo.getDescription());
-                if(!TextUtils.isEmpty(repo.getWatchers().toString()))
+                if (!TextUtils.isEmpty(repo.getWatchers().toString()))
                     watchers.setText(repo.getWatchers().toString());
-                if(!TextUtils.isEmpty(repo.getDefaultBranch()))
+                if (!TextUtils.isEmpty(repo.getDefaultBranch()))
                     defaultBranch.setText(repo.getDefaultBranch());
             }
 
             @Override
             public void onFailure(Call<GitHubRepo> call, Throwable t) {
                 Toast.makeText(fragmentView.getContext(), "The network call was a failure", Toast.LENGTH_SHORT).show();
-                }
+            }
         });
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        /*outState.putString(OWNER_KEY,owner);
-        outState.putString(REPO_KEY,repo);*/
+        outState.putString(REPO_KEY, name.getText().toString());
+        outState.putString(LANGUAGE_KEY, language.getText().toString());
+        outState.putString(DESCRIPTION_KEY, description.getText().toString());
+        outState.putString(WATCHERS_KEY,watchers.getText().toString());
+        outState.putString(BRANCH_KEY,defaultBranch.getText().toString());
     }
 
     @Override
@@ -84,6 +91,14 @@ public class DetailRepoFragment extends Fragment {
         description = fragmentView.findViewById(R.id.description);
         watchers = fragmentView.findViewById(R.id.watchers);
         defaultBranch = fragmentView.findViewById(R.id.defaultBranch);
+
+        if (savedInstanceState != null){
+            name.setText(savedInstanceState.getString(REPO_KEY));
+            language.setText(savedInstanceState.getString(LANGUAGE_KEY));
+            description.setText(savedInstanceState.getString(DESCRIPTION_KEY));
+            watchers.setText(savedInstanceState.getString(WATCHERS_KEY));
+            defaultBranch.setText(savedInstanceState.getString(BRANCH_KEY));
+        }
 
         return fragmentView;
     }
