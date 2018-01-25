@@ -6,7 +6,7 @@
     <string name="language">Language: </string>
     <string name="description">Description: </string>
     <string name="repoName">Name: </string>
-    <string name="repoView">Repositories</string>
+    <string name="reposView">Repositories</string>
     <string name="login">developer login</string>
     <string name="default_name_repo_field">no-name-repository</string>
     <string name="default_language_field">language is not specified</string>
@@ -14,4 +14,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="repoView">Repository</string>
 </resources>

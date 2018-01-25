@@ -40,17 +40,34 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!--repository inscription-->
-    <TextView
-        android:id="@+id/repoView"
-        android:layout_width="wrap_content"
+    <!--repositories inscription's-->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingVertical="@dimen/margin_small"
-        android:text="@string/repoView"
-        android:textSize="20sp"
-        android:textStyle="bold|italic" />
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/margin_tiny">
+
+        <TextView
+            android:id="@+id/reposView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/reposView"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/repoView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/repoView"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
 
     <!--repository list-->
     <LinearLayout
@@ -58,32 +75,34 @@
         android:layout_height="0dp"
         android:layout_weight="4"
         android:orientation="horizontal">
+
         <!--recyclerviewfragment-->
         <LinearLayout
             android:id="@+id/recyclerContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:padding="@dimen/margin_tiny"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="@dimen/margin_tiny">
 
             <fragment
-                android:id="@+id/list_fragment"
-                class="com.jankrav.learnretrofitusingfragmens.ChoseRepoFragment"
+                android:id="@+id/choose_fragment"
+                class="com.jankrav.learnretrofitusingfragmens.ChooseRepoFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
         </LinearLayout>
+
         <!--detail_fragment-->
         <LinearLayout
             android:id="@+id/dataContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:padding="@dimen/margin_tiny"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="@dimen/margin_tiny">
 
             <fragment
-                class="com.jankrav.learnretrofitusingfragmens.DetailRepoFragment"
                 android:id="@+id/detail_fragment"
+                class="com.jankrav.learnretrofitusingfragmens.DetailRepoFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>

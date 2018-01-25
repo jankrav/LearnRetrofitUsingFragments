@@ -34,11 +34,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        final DetailRepoFragment detailRepoFragment =
+                (DetailRepoFragment) getFragmentManager().findFragmentById(R.id.detail_fragment);
+
+
         final TextView login = findViewById(R.id.login);
         final ImageView avatarPhoto = findViewById(R.id.avatarPhoto);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         client = ServiceGenerator.getDefaultService();
 
         Call<List<GitHubRepo>> call = client.reposForUser("jankrav");
@@ -51,15 +57,14 @@ public class MainActivity extends AppCompatActivity {
                         .load(repos.get(0).getOwner().getAvatarUrl())
                         .into(avatarPhoto);
                 login.setText(repos.get(0).getOwner().getLogin());
-
-                recyclerView.setAdapter(new GitHubRepoAdapter(repos));
+                recyclerView.setAdapter(new GitHubRepoAdapter(repos, detailRepoFragment));
             }
 
             @Override
             public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
                 Toast.makeText(MainActivity.this,
-                                "The network call was a failure",
-                                Toast.LENGTH_SHORT).show();
+                        "The network call was a failure",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

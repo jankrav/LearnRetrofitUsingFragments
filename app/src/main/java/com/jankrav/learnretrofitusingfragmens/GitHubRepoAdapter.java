@@ -13,8 +13,10 @@ import java.util.List;
 
 class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
-    public GitHubRepoAdapter(List<GitHubRepo> repos) {
+    private DetailRepoFragment detailRepoFragment;
+    public GitHubRepoAdapter(List<GitHubRepo> repos, DetailRepoFragment detailRepoFragment) {
         this.repos = repos;
+        this.detailRepoFragment = detailRepoFragment;
     }
 
     protected class Holder extends RecyclerView.ViewHolder{
@@ -32,9 +34,15 @@ class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(Holder holder, final int position) {
         holder.repoName.setText(repos.get(position).getName());
-
+        holder.repoName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailRepoFragment.showRepoInfo(repos.get(position).getOwner().getLogin(),
+                                                repos.get(position).getName());
+            }
+        });
     }
 
     @Override

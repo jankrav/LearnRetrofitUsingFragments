@@ -8,6 +8,8 @@
         android:id="@+id/list_item_repo_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/margin_medium"
+        android:paddingHorizontal="@dimen/margin_tiny"
         android:textSize="20sp" />
 
 </LinearLayout>
