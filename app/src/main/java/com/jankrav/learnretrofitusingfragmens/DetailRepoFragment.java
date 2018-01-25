@@ -23,6 +23,9 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class DetailRepoFragment extends Fragment {
+    private static String OWNER_KEY = "1998";
+    private static String REPO_KEY  = "2502";
+    private String owner,repo;
     private TextView name, language, description, watchers, defaultBranch;
     private View fragmentView;
 
@@ -59,10 +62,16 @@ public class DetailRepoFragment extends Fragment {
             @Override
             public void onFailure(Call<GitHubRepo> call, Throwable t) {
                 Toast.makeText(fragmentView.getContext(), "The network call was a failure", Toast.LENGTH_SHORT).show();
-            }
+                }
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /*outState.putString(OWNER_KEY,owner);
+        outState.putString(REPO_KEY,repo);*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
