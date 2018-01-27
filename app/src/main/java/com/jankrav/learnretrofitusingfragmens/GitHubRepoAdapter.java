@@ -13,8 +13,6 @@ import java.util.List;
 
 class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
-//    private DetailRepoFragment detailRepoFragment;
-
 
     public GitHubRepoAdapter(List<GitHubRepo> repos, OnChooseItemListener listener) {
         this.repos = repos;
