@@ -1,7 +1,7 @@
 package com.jankrav.learnretrofitusingfragmens;
 
 
-
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -36,18 +36,55 @@ public class DetailRepoFragment extends Fragment {
 
 
     private View fragmentView;
-    private GitHubClient client;
+    private GitHubClient client = ServiceGenerator.getDefaultService();
+    ;
+    private Context context;
 
     public DetailRepoFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        fragmentView = inflater.inflate(R.layout.fragment_detail_repo, container, false);
+
+        initFields();
+
+        if (savedInstanceState != null) {
+            name.setText(savedInstanceState.getString(REPO_KEY));
+            language.setText(savedInstanceState.getString(LANGUAGE_KEY));
+            description.setText(savedInstanceState.getString(DESCRIPTION_KEY));
+            watchers.setText(savedInstanceState.getString(WATCHERS_KEY));
+            defaultBranch.setText(savedInstanceState.getString(BRANCH_KEY));
+        }
+
+        return fragmentView;
+    }
+
+    private void initFields() {
+        if (fragmentView != null) {
+            name = fragmentView.findViewById(R.id.name);
+            language = fragmentView.findViewById(R.id.language);
+            description = fragmentView.findViewById(R.id.description);
+            watchers = fragmentView.findViewById(R.id.watchers);
+            defaultBranch = fragmentView.findViewById(R.id.defaultBranch);
+        }
+    }
+
     //must find repo by properties
     public void showRepoInfo(@NonNull String owner, @NonNull String repo) {
-
-        client = ServiceGenerator.getDefaultService();
         Call<GitHubRepo> call = client.repoForUser(owner, repo);
+
         call.enqueue(new Callback<GitHubRepo>() {
+            // if server response than ...
             @Override
             public void onResponse(Call<GitHubRepo> call, Response<GitHubRepo> response) {
                 GitHubRepo repo = response.body();
@@ -63,9 +100,10 @@ public class DetailRepoFragment extends Fragment {
                     defaultBranch.setText(repo.getDefaultBranch());
             }
 
+            // if smth goes wrong than ...
             @Override
             public void onFailure(Call<GitHubRepo> call, Throwable t) {
-                Toast.makeText(fragmentView.getContext(), "The network call was a failure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "The network call was a failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -76,31 +114,8 @@ public class DetailRepoFragment extends Fragment {
         outState.putString(REPO_KEY, name.getText().toString());
         outState.putString(LANGUAGE_KEY, language.getText().toString());
         outState.putString(DESCRIPTION_KEY, description.getText().toString());
-        outState.putString(WATCHERS_KEY,watchers.getText().toString());
-        outState.putString(BRANCH_KEY,defaultBranch.getText().toString());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        fragmentView = inflater.inflate(R.layout.fragment_detail_repo, container, false);
-
-        name = fragmentView.findViewById(R.id.name);
-        language = fragmentView.findViewById(R.id.language);
-        description = fragmentView.findViewById(R.id.description);
-        watchers = fragmentView.findViewById(R.id.watchers);
-        defaultBranch = fragmentView.findViewById(R.id.defaultBranch);
-
-        if (savedInstanceState != null){
-            name.setText(savedInstanceState.getString(REPO_KEY));
-            language.setText(savedInstanceState.getString(LANGUAGE_KEY));
-            description.setText(savedInstanceState.getString(DESCRIPTION_KEY));
-            watchers.setText(savedInstanceState.getString(WATCHERS_KEY));
-            defaultBranch.setText(savedInstanceState.getString(BRANCH_KEY));
-        }
-
-        return fragmentView;
+        outState.putString(WATCHERS_KEY, watchers.getText().toString());
+        outState.putString(BRANCH_KEY, defaultBranch.getText().toString());
     }
 
 

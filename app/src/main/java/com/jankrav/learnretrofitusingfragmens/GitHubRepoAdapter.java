@@ -13,8 +13,8 @@ import java.util.List;
 
 class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
-
-    public GitHubRepoAdapter(List<GitHubRepo> repos, OnChooseItemListener listener) {
+    private ChooseRepoFragment.OnChooseItemListener listener;
+    public GitHubRepoAdapter(List<GitHubRepo> repos, ChooseRepoFragment.OnChooseItemListener listener) {
         this.repos = repos;
         this.listener = listener;
     }
@@ -27,12 +27,6 @@ class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
             repoName = itemView.findViewById(R.id.list_item_repo_name);
         }
     }
-
-    static interface OnChooseItemListener {
-        void onClickRepo(int id);
-    }
-
-    private OnChooseItemListener listener;
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,7 +42,7 @@ class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
             @Override
             public void onClick(View v) {
                 if (listener != null)
-                    listener.onClickRepo(position);
+                    listener.onSelectedRepo(position);
             }
         });
     }
