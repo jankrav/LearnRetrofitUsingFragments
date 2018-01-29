@@ -1,7 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
-import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
+import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +26,8 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailRepoFragment extends Fragment {
+public class DetailRepoFragment extends Fragment implements DetailFragmentView {
+
     private static String REPO_KEY = "2502";
     private static String DESCRIPTION_KEY = "1998";
     private static String LANGUAGE_KEY = "1301";
@@ -38,17 +40,10 @@ public class DetailRepoFragment extends Fragment {
 
     private View fragmentView;
     private GitHubClient client = ServiceGenerator.getDefaultService();
-    ;
-    private Context context;
+
 
     public DetailRepoFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override
@@ -56,7 +51,8 @@ public class DetailRepoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_detail_repo, container, false);
-
+        
+        DetailPresenter presenter = new DetailFragmentPresenter(this);
         initFields();
 
         if (savedInstanceState != null) {
@@ -104,7 +100,7 @@ public class DetailRepoFragment extends Fragment {
             // if smth goes wrong than ...
             @Override
             public void onFailure(Call<GitHubRepo> call, Throwable t) {
-                Toast.makeText(context, "The network call was a failure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "The network call was a failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
