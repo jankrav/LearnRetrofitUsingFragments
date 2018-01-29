@@ -1,7 +1,10 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
-public class ChooseFragmentPresenter {
-    public ChooseFragmentPresenter(){
+import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
+public class ChooseFragmentPresenter {
+    private ChooseFragmentView view;
+    public ChooseFragmentPresenter(ChooseFragmentView view){
+        this.view = view;
     }
 }
