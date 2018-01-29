@@ -13,8 +13,15 @@ import java.util.List;
 
 class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
-    private ChooseRepoFragment.OnChooseItemListener listener;
-    public GitHubRepoAdapter(List<GitHubRepo> repos, ChooseRepoFragment.OnChooseItemListener listener) {
+
+    // handle user's click's
+    interface OnChooseItemListener {
+        void onSelectedRepo(int id);
+    }
+
+    private OnChooseItemListener listener;
+
+    public GitHubRepoAdapter(List<GitHubRepo> repos, OnChooseItemListener listener) {
         this.repos = repos;
         this.listener = listener;
     }
@@ -30,7 +37,6 @@ class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new Holder(inflater.inflate(R.layout.list_item_recycler_view, parent, false));
     }
