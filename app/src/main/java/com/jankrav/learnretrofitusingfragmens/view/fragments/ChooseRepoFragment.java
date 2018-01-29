@@ -30,18 +30,13 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.OnChooseItemListener {
-    private String userLogin;
+
     private RecyclerView recyclerView;
     private List<GitHubRepo> repos;
     private TextView loginTextView;
     private ImageView avatarImageView;
 
 
-    private static final String USER_LOGIN_KEY = "UserLogin";
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
-    }
 
     public ChooseRepoFragment() {
         // Required empty public constructor
