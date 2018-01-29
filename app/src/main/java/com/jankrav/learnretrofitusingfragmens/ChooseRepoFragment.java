@@ -33,7 +33,7 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
     private List<GitHubRepo> repos;
     private TextView loginTextView;
     private ImageView avatarImageView;
-    private static final String DEFAULT_USER_LOGIN = "torvalds";
+
 
     private static final String USER_LOGIN_KEY = "UserLogin";
 
@@ -78,12 +78,9 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        //if user login is empty that we will get information about Linux Torvalds repo
-        if (userLogin == null || userLogin.equals(""))
-            userLogin = DEFAULT_USER_LOGIN;
 
         //Get repos from the server for specific user by login asynchronously
-        client.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
+        client.reposForUser("jankrav").enqueue(new Callback<List<GitHubRepo>>() {
             @Override
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
                 repos = response.body();
@@ -104,11 +101,6 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
         return view;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(USER_LOGIN_KEY, userLogin);
-    }
 
 
 }
