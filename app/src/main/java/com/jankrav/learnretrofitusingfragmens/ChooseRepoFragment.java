@@ -27,21 +27,19 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.OnChooseItemListener{
+public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.OnChooseItemListener {
+    private String userLogin;
     private RecyclerView recyclerView;
-    private GitHubClient client;
     private List<GitHubRepo> repos;
-    private DetailRepoFragment detail;
     private TextView loginTextView;
     private ImageView avatarImageView;
-    private String DEFAULT_USER_LOGIN = "torvalds";
+    private static final String DEFAULT_USER_LOGIN = "torvalds";
+
     private static final String USER_LOGIN_KEY = "UserLogin";
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
     }
-
-    private String userLogin;
 
     public ChooseRepoFragment() {
         // Required empty public constructor
@@ -49,7 +47,7 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
 
     @Override
     public void onSelectedRepo(int id) {
-        detail = new DetailRepoFragment();
+        DetailRepoFragment detail = new DetailRepoFragment();
 
         FragmentTransaction transaction;
 
@@ -71,19 +69,21 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
 
-        client = ServiceGenerator.getDefaultService();
+        //init fields
+
+        //Retrofit client
+        GitHubClient client = ServiceGenerator.getDefaultService();
         loginTextView = view.findViewById(R.id.login);
         avatarImageView = view.findViewById(R.id.avatarPhoto);
-
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        if(userLogin != null && !userLogin.equals(""))
-            ;
-        else userLogin = DEFAULT_USER_LOGIN;
+        //if user login is empty that we will get information about Linux Torvalds repo
+        if (userLogin == null || userLogin.equals(""))
+            userLogin = DEFAULT_USER_LOGIN;
 
-        Call<List<GitHubRepo>> call = client.reposForUser(userLogin);
-        call.enqueue(new Callback<List<GitHubRepo>>() {
+        //Get repos from the server for specific user by login asynchronously
+        client.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
             @Override
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
                 repos = response.body();
@@ -100,15 +100,15 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
                         Toast.LENGTH_SHORT).show();
             }
         });
+
         return view;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(USER_LOGIN_KEY,userLogin);
+        outState.putString(USER_LOGIN_KEY, userLogin);
     }
-
 
 
 }

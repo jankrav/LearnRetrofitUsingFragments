@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
-    private String userLogin;
+    // login of user about who we want watch information
+    private String userLogin = "jankrav";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //default operation's
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ChooseRepoFragment chooser = new ChooseRepoFragment();
-        chooser.setUserLogin("jankrav");
+        chooser.setUserLogin(userLogin);
 
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
