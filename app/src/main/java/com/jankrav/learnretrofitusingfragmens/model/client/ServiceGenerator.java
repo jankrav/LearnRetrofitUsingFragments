@@ -1,4 +1,4 @@
-package com.jankrav.learnretrofitusingfragmens.client;
+package com.jankrav.learnretrofitusingfragmens.model.client;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

@@ -1,4 +1,4 @@
-package com.jankrav.learnretrofitusingfragmens.client;
+package com.jankrav.learnretrofitusingfragmens.model.client;
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 

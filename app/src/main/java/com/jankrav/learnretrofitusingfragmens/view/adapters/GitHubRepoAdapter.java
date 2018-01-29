@@ -1,4 +1,4 @@
-package com.jankrav.learnretrofitusingfragmens;
+package com.jankrav.learnretrofitusingfragmens.view.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,16 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 
 import java.util.List;
 
 
-class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
+public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
 
     // handle user's click's
-    interface OnChooseItemListener {
+    public interface OnChooseItemListener {
         void onSelectedRepo(int id);
     }
 

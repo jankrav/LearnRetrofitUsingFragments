@@ -3,7 +3,7 @@
     android:id="@+id/detailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jankrav.learnretrofitusingfragmens.DetailRepoFragment">
+    tools:context="com.jankrav.learnretrofitusingfragmens.view.fragments.DetailRepoFragment">
 
     <ScrollView
         android:id="@+id/scrollView"

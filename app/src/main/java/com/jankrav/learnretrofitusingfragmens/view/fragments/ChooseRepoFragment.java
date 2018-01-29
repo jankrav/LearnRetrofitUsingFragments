@@ -1,4 +1,4 @@
-package com.jankrav.learnretrofitusingfragmens;
+package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jankrav.learnretrofitusingfragmens.client.GitHubClient;
-import com.jankrav.learnretrofitusingfragmens.client.ServiceGenerator;
+import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
+import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

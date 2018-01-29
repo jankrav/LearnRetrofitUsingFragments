@@ -1,4 +1,4 @@
-package com.jankrav.learnretrofitusingfragmens;
+package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 
 import android.content.Context;
@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jankrav.learnretrofitusingfragmens.client.GitHubClient;
-import com.jankrav.learnretrofitusingfragmens.client.ServiceGenerator;
+import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
+import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 
 import retrofit2.Call;
