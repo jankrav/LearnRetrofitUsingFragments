@@ -16,6 +16,8 @@ import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
+import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -29,13 +31,13 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.OnChooseItemListener {
+public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.OnChooseItemListener, ChooseFragmentView {
 
     private RecyclerView recyclerView;
     private List<GitHubRepo> repos;
     private TextView loginTextView;
     private ImageView avatarImageView;
-
+    private ChoosePresenter presenter;
 
 
     public ChooseRepoFragment() {
@@ -66,6 +68,7 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
 
+        presenter = new ChooseFragmentPresenter(this);
         //init fields
 
         //Retrofit client
