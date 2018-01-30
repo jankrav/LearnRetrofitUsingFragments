@@ -53,6 +53,9 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         fragmentView = inflater.inflate(R.layout.fragment_detail_repo, container, false);
 
         DetailPresenter presenter = new DetailFragmentPresenter(this);
+
+        int id = getArguments().getInt(ChooseRepoFragment.REPO_LIST_ID);
+        presenter.onSelectedRepo(id);
         initFields();
 
         if (savedInstanceState != null) {

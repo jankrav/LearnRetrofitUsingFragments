@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.GitHubService;
-import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
@@ -23,15 +21,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.OnChooseItemListener, ChooseFragmentView {
+public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
+    public static String REPO_LIST_ID = "REPO_ID";
     //views
     private RecyclerView recyclerView;
     private TextView loginTextView;
@@ -39,8 +34,8 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
 
     //other
     private ChoosePresenter presenter;
-//    private List<GitHubRepo> repos;
     private DetailRepoFragment detail;
+
 
 
     public ChooseRepoFragment() {
@@ -50,75 +45,39 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
 
         presenter = new ChooseFragmentPresenter(this);
-
-        //init fields
-        loginTextView = view.findViewById(R.id.login);
-        avatarImageView = view.findViewById(R.id.avatarPhoto);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
-        //Get repos from the server for specific user by login asynchronously
         presenter.onUserChosen("jankrav");
-        /*GitHubService client = ServiceGenerator.getDefaultService();
-        client.reposForUser("jankrav").enqueue(new Callback<List<GitHubRepo>>() {
-            @Override
-            public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
-                repos = response.body();
-
-                // only if on response
-                //finished
-                Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
-                        .into(avatarImageView);
-                loginTextView.setText(repos.get(0).getOwner().getLogin());
-                recyclerView.setAdapter(new GitHubRepoAdapter(repos, ChooseRepoFragment.this));
-            }
-
-            @Override
-            public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
-                Toast.makeText(getContext(),
-                        "The network call was a failure",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-        return view;
+        return inflater.inflate(R.layout.fragment_choose_repo, container, false);
     }
 
-    @Override
-    public void onSelectedRepo(int id) {
-        /*presenter.onSelectedRepo(id);
-
-        detail.showRepoInfo(
-                repos.get(id).getOwner().getLogin(),
-                repos.get(id).getName()
-        );*/
-    }
 
     @Override
-    public void checkoutToDetailFragment() {
+    public void checkoutToDetailFragment(int repoListId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(REPO_LIST_ID, repoListId);
+
         detail = new DetailRepoFragment();
-//        DetailRepoFragment detail = new DetailRepoFragment();
+
+        detail.setArguments(bundle);
 
         FragmentTransaction transaction;
-
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, detail);
         transaction.addToBackStack(null);
-
         transaction.commit();
-
     }
 
     @Override
     public void showInfo(List<GitHubRepo> repos) {
+        loginTextView = getView().findViewById(R.id.login);
+        avatarImageView = getView().findViewById(R.id.avatarPhoto);
+        recyclerView = getView().findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
                 .into(avatarImageView);
         loginTextView.setText(repos.get(0).getOwner().getLogin());
-        recyclerView.setAdapter(new GitHubRepoAdapter(repos, this));
+        recyclerView.setAdapter(new GitHubRepoAdapter(repos, presenter));
     }
 
     @Override

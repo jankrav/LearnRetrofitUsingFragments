@@ -16,9 +16,7 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
 
     @Override
     public void onSelectedRepo(int id) {
-        client.getRepoInfo(id);
-        view.checkoutToDetailFragment();
-//        viewDetail.showRepoInfo(GitHubRepo repo)
+        view.checkoutToDetailFragment(id);
     }
 
     @Override

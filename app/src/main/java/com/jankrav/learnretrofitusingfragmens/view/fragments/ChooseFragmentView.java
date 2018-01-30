@@ -5,7 +5,7 @@ import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import java.util.List;
 
 public interface ChooseFragmentView {
-    void checkoutToDetailFragment();
+    void checkoutToDetailFragment(int id);
     void showInfo(List<GitHubRepo> repos);
 
     void makeReposIsNullToast();

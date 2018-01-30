@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 
 import java.util.List;
 
@@ -15,16 +16,11 @@ import java.util.List;
 public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
 
-    // handle user's click's
-    public interface OnChooseItemListener {
-        void onSelectedRepo(int id);
-    }
+    private ChoosePresenter presenter;
 
-    private OnChooseItemListener listener;
-
-    public GitHubRepoAdapter(List<GitHubRepo> repos, OnChooseItemListener listener) {
+    public GitHubRepoAdapter(List<GitHubRepo> repos, ChoosePresenter presenter) {
         this.repos = repos;
-        this.listener = listener;
+        this.presenter = presenter;
     }
 
     protected class Holder extends RecyclerView.ViewHolder {
@@ -48,8 +44,8 @@ public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Ho
         holder.repoName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null)
-                    listener.onSelectedRepo(position);
+                if (presenter != null)
+                    presenter.onSelectedRepo(position);
             }
         });
     }
