@@ -32,12 +32,15 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.OnChooseItemListener, ChooseFragmentView {
-
+    //views
     private RecyclerView recyclerView;
-    private List<GitHubRepo> repos;
     private TextView loginTextView;
     private ImageView avatarImageView;
+
+    //other
     private ChoosePresenter presenter;
+//    private List<GitHubRepo> repos;
+    private DetailRepoFragment detail;
 
 
     public ChooseRepoFragment() {
@@ -51,21 +54,23 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
         final View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
 
         presenter = new ChooseFragmentPresenter(this);
-        //init fields
 
-        //Retrofit client
-        GitHubService client = ServiceGenerator.getDefaultService();
+        //init fields
         loginTextView = view.findViewById(R.id.login);
         avatarImageView = view.findViewById(R.id.avatarPhoto);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-
         //Get repos from the server for specific user by login asynchronously
+        presenter.onUserChosen("jankrav");
+        /*GitHubService client = ServiceGenerator.getDefaultService();
         client.reposForUser("jankrav").enqueue(new Callback<List<GitHubRepo>>() {
             @Override
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
                 repos = response.body();
+
+                // only if on response
+                //finished
                 Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
                         .into(avatarImageView);
                 loginTextView.setText(repos.get(0).getOwner().getLogin());
@@ -78,14 +83,25 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
                         "The network call was a failure",
                         Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         return view;
     }
 
     @Override
     public void onSelectedRepo(int id) {
-        DetailRepoFragment detail = new DetailRepoFragment();
+        /*presenter.onSelectedRepo(id);
+
+        detail.showRepoInfo(
+                repos.get(id).getOwner().getLogin(),
+                repos.get(id).getName()
+        );*/
+    }
+
+    @Override
+    public void checkoutToDetailFragment() {
+        detail = new DetailRepoFragment();
+//        DetailRepoFragment detail = new DetailRepoFragment();
 
         FragmentTransaction transaction;
 
@@ -95,10 +111,29 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
 
         transaction.commit();
 
-        detail.showRepoInfo(
-                repos.get(id).getOwner().getLogin(),
-                repos.get(id).getName()
-        );
+    }
+
+    @Override
+    public void showInfo(List<GitHubRepo> repos) {
+        Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
+                .into(avatarImageView);
+        loginTextView.setText(repos.get(0).getOwner().getLogin());
+        recyclerView.setAdapter(new GitHubRepoAdapter(repos, this));
+    }
+
+    @Override
+    public void makeReposIsNullToast() {
+        Toast.makeText(getContext(), "Server return that repos is null", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeFailureToast() {
+        Toast.makeText(getContext(), "The network is failure", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeGoodToast() {
+        Toast.makeText(getContext(), "Network is response ;)", Toast.LENGTH_SHORT).show();
     }
 
 }
