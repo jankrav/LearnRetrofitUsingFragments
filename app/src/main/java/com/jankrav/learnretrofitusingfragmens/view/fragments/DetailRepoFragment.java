@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubService;
 import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
@@ -39,7 +39,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
 
     private View fragmentView;
-    private GitHubClient client = ServiceGenerator.getDefaultService();
+    private GitHubService client = ServiceGenerator.getDefaultService();
 
 
     public DetailRepoFragment() {

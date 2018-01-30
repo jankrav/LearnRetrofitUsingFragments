@@ -9,7 +9,7 @@ public class ServiceGenerator {
 
     private static Object instance;
     private static final String BASE_URL = "https://api.github.com";
-    private static final Class<GitHubClient> DEFAULT_SERVICE_CLIENT = GitHubClient.class;
+    private static final Class<GitHubService> DEFAULT_SERVICE_CLIENT = GitHubService.class;
 
     private ServiceGenerator(){}
 
@@ -24,10 +24,10 @@ public class ServiceGenerator {
                 .create(serviceClass);
     }
 
-    public static synchronized GitHubClient getDefaultService() {
+    public static synchronized GitHubService getDefaultService() {
         if(instance == null)
             instance = createService(DEFAULT_SERVICE_CLIENT);
-        return (GitHubClient) instance;
+        return (GitHubService) instance;
     }
 
 

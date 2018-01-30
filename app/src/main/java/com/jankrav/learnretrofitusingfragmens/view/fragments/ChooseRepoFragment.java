@@ -13,9 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
-import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
-import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubService;
+import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
@@ -72,7 +72,7 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
         //init fields
 
         //Retrofit client
-        GitHubClient client = ServiceGenerator.getDefaultService();
+        GitHubService client = ServiceGenerator.getDefaultService();
         loginTextView = view.findViewById(R.id.login);
         avatarImageView = view.findViewById(R.id.avatarPhoto);
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -100,7 +100,6 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
 
         return view;
     }
-
 
 
 }
