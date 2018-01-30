@@ -51,7 +51,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_detail_repo, container, false);
-        
+
         DetailPresenter presenter = new DetailFragmentPresenter(this);
         initFields();
 

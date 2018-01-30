@@ -45,24 +45,6 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
     }
 
     @Override
-    public void onSelectedRepo(int id) {
-        DetailRepoFragment detail = new DetailRepoFragment();
-
-        FragmentTransaction transaction;
-
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, detail);
-        transaction.addToBackStack(null);
-
-        transaction.commit();
-
-        detail.showRepoInfo(
-                repos.get(id).getOwner().getLogin(),
-                repos.get(id).getName()
-        );
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -101,5 +83,22 @@ public class ChooseRepoFragment extends Fragment implements GitHubRepoAdapter.On
         return view;
     }
 
+    @Override
+    public void onSelectedRepo(int id) {
+        DetailRepoFragment detail = new DetailRepoFragment();
+
+        FragmentTransaction transaction;
+
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, detail);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
+
+        detail.showRepoInfo(
+                repos.get(id).getOwner().getLogin(),
+                repos.get(id).getName()
+        );
+    }
 
 }
