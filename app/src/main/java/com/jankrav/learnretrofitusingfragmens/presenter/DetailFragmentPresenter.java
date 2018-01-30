@@ -1,5 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 
@@ -13,6 +14,20 @@ public class DetailFragmentPresenter implements DetailPresenter {
 
     @Override
     public void onSelectedRepo(int id) {
-        client.getRepoInfo(id);
+        client.getRepoInfo(this, id);
+    }
+
+    @Override
+    public void requestResponse(GitHubRepo repo) {
+        if (repo != null ){
+            view.showInfo(repo);
+            view.makeGoodToast();
+        }
+        else view.makeRepoIsNullToast();
+    }
+
+    @Override
+    public void requestFailure(Throwable t) {
+
     }
 }

@@ -3,6 +3,7 @@ package com.jankrav.learnretrofitusingfragmens.model.client;
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
+import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
 import java.util.List;
 
@@ -40,7 +41,23 @@ public class GitHubClient {
         });
     }
 
-    public GitHubRepo getRepoInfo(int id) {
+    public GitHubRepo getRepoInfo(final DetailPresenter presenter, int id) {
+        String owner = repos.get(id).getOwner().getLogin();
+        String repo = repos.get(id).getName();
+        service.repoForUser(owner, repo).enqueue(new Callback<GitHubRepo>() {
+            // if server response than ...
+            @Override
+            public void onResponse(Call<GitHubRepo> call, Response<GitHubRepo> response) {
+                GitHubRepo repo = response.body();
+                presenter.requestResponse(repo);
+            }
+
+            // if smth goes wrong than ...
+            @Override
+            public void onFailure(Call<GitHubRepo> call, Throwable t) {
+                presenter.requestFailure(t);
+            }
+        });
         return null;
     }
 

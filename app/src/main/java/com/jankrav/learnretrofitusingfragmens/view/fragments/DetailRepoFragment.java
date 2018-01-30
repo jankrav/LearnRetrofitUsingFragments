@@ -2,7 +2,6 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,10 +17,6 @@ import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,14 +29,10 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     private static String BRANCH_KEY = "1997";
     private static String WATCHERS_KEY = "1972";
 
-    private String owner, repo;
     private TextView name, language, description, watchers, defaultBranch;
 
-
     private View fragmentView;
-    private GitHubService client = ServiceGenerator.getDefaultService();
-
-
+    
     public DetailRepoFragment() {
         // Required empty public constructor
     }
@@ -54,8 +45,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
         DetailPresenter presenter = new DetailFragmentPresenter(this);
 
-        int id = getArguments().getInt(ChooseRepoFragment.REPO_LIST_ID);
-        presenter.onSelectedRepo(id);
+        //
         initFields();
 
         if (savedInstanceState != null) {
@@ -65,6 +55,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             watchers.setText(savedInstanceState.getString(WATCHERS_KEY));
             defaultBranch.setText(savedInstanceState.getString(BRANCH_KEY));
         }
+        else presenter.onSelectedRepo(getArguments().getInt(ChooseRepoFragment.REPO_LIST_ID));
 
         return fragmentView;
     }
@@ -79,35 +70,6 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         }
     }
 
-    //must find repo by properties
-    public void showRepoInfo(@NonNull String owner, @NonNull String repo) {
-        Call<GitHubRepo> call = client.repoForUser(owner, repo);
-
-        call.enqueue(new Callback<GitHubRepo>() {
-            // if server response than ...
-            @Override
-            public void onResponse(Call<GitHubRepo> call, Response<GitHubRepo> response) {
-                GitHubRepo repo = response.body();
-                if (!TextUtils.isEmpty(repo.getName()))
-                    name.setText(repo.getName());
-                if (!TextUtils.isEmpty(repo.getLanguage()))
-                    language.setText(repo.getLanguage());
-                if (!TextUtils.isEmpty(repo.getDescription()))
-                    description.setText(repo.getDescription());
-                if (!TextUtils.isEmpty(repo.getWatchers().toString()))
-                    watchers.setText(repo.getWatchers().toString());
-                if (!TextUtils.isEmpty(repo.getDefaultBranch()))
-                    defaultBranch.setText(repo.getDefaultBranch());
-            }
-
-            // if smth goes wrong than ...
-            @Override
-            public void onFailure(Call<GitHubRepo> call, Throwable t) {
-                Toast.makeText(getContext(), "The network call was a failure", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -119,4 +81,32 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
 
+    @Override
+    public void showInfo(GitHubRepo repo) {
+        if (!TextUtils.isEmpty(repo.getName()))
+            name.setText(repo.getName());
+        if (!TextUtils.isEmpty(repo.getLanguage()))
+            language.setText(repo.getLanguage());
+        if (!TextUtils.isEmpty(repo.getDescription()))
+            description.setText(repo.getDescription());
+        if (!TextUtils.isEmpty(repo.getWatchers().toString()))
+            watchers.setText(repo.getWatchers().toString());
+        if (!TextUtils.isEmpty(repo.getDefaultBranch()))
+            defaultBranch.setText(repo.getDefaultBranch());
+    }
+
+    @Override
+    public void makeRepoIsNullToast() {
+        Toast.makeText(getContext(), "Repo is null!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeFailureToast() {
+        Toast.makeText(getContext(), "The network is failure!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeGoodToast() {
+        Toast.makeText(getContext(), "Everything is okey! ;)", Toast.LENGTH_SHORT).show();
+    }
 }
