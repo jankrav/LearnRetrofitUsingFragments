@@ -1,6 +1,8 @@
 package com.jankrav.learnretrofitusingfragmens.model.client;
 
 
+import android.support.annotation.NonNull;
+
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
@@ -26,22 +28,25 @@ public class GitHubClient {
         return instance;
     }
 
-    public void getReposForUser(final ChoosePresenter presenter, String userLogin) {
-        service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
-            @Override
-            public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
-                //response.body return List<GitHubRepo>
-                presenter.requestResponse(response.body());
-            }
+    public void getReposForUser(final ChoosePresenter presenter, @NonNull String userLogin) {
+        if (!userLogin.equals(""))
+            service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
+                @Override
+                public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
+                    //response.body return List<GitHubRepo>
+                    presenter.requestResponse(response.body());
+                }
 
-            @Override
-            public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
-                presenter.requestFailure(t);
-            }
-        });
+                @Override
+                public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
+                    presenter.requestFailure(t);
+                }
+            });
+        else throw new NullPointerException("User's login is null!");
     }
 
     public void getRepoInfo(final DetailPresenter presenter, String repoOwnerLogin, String repoName) {
+
         service.repoForUser(repoOwnerLogin, repoName).enqueue(new Callback<GitHubRepo>() {
             // if server response than ...
             @Override

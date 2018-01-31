@@ -1,5 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
@@ -18,24 +19,23 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
     }
 
     @Override
-    public void onUserChosen(String user)  {
-        if(user != null)
-            client.getReposForUser(this, user);
-        else throw new NullPointerException("User's login is equals null");
+    public void onUserChosen(String user) {
+        client.getReposForUser(this, user);
     }
 
     @Override
-    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
-        view.checkoutToDetailFragment(repoOwnerLogin, repoName);
+    public void onSelectedRepo(@NonNull String repoOwnerLogin, @NonNull String repoName) {
+        if (!repoOwnerLogin.equals("") && !repoName.equals(""))
+            view.checkoutToDetailFragment(repoOwnerLogin, repoName);
+        else throw new NullPointerException();
     }
 
     @Override
     public void requestResponse(List<GitHubRepo> repos) {
-        if(repos != null) {
+        if (repos != null) {
             view.showInfo(repos);
             view.makeGoodToast();
-        }
-        else view.makeReposIsNullToast();
+        } else view.makeReposIsNullToast();
     }
 
     @Override
