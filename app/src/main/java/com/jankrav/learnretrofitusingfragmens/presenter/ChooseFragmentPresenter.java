@@ -20,8 +20,10 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
     }
 
     @Override
-    public void onUserChosen(String user) {
-        client.getReposForUser(this, user);
+    public void onUserChosen(String user)  {
+        if(user != null)
+            client.getReposForUser(this, user);
+        else throw new NullPointerException("User's login is equals null");
     }
 
     @Override
@@ -37,4 +39,5 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
     public void requestFailure(Throwable t) {
         view.makeFailureToast();
     }
+
 }
