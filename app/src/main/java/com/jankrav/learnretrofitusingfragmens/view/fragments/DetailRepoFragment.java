@@ -1,6 +1,7 @@
 package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -12,8 +13,6 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.GitHubService;
-import com.jankrav.learnretrofitusingfragmens.model.client.ServiceGenerator;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
@@ -31,10 +30,18 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
     private TextView name, language, description, watchers, defaultBranch;
 
+    private DetailPresenter presenter;
     private View fragmentView;
-    
+
     public DetailRepoFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        presenter = new DetailFragmentPresenter();
+        presenter.onAttachView(this);
     }
 
     @Override
@@ -43,9 +50,6 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_detail_repo, container, false);
 
-        DetailPresenter presenter = new DetailFragmentPresenter(this);
-
-        //
         initFields();
 
         if (savedInstanceState != null) {
@@ -54,8 +58,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             description.setText(savedInstanceState.getString(DESCRIPTION_KEY));
             watchers.setText(savedInstanceState.getString(WATCHERS_KEY));
             defaultBranch.setText(savedInstanceState.getString(BRANCH_KEY));
-        }
-        else {
+        } else {
             Bundle bundle = getArguments();
             String repoOwnerLogin = bundle.getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
             String repoName = bundle.getString(ChooseRepoFragment.REPO_NAME);
@@ -63,6 +66,12 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         }
 
         return fragmentView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        presenter.onDetachView();
     }
 
     private void initFields() {

@@ -1,17 +1,16 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
-import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
 import java.util.List;
 
 public class ChooseFragmentPresenter implements ChoosePresenter {
     private GitHubClient client = GitHubClient.getInstance();
+
     private ChooseFragmentView view;
 
     public ChooseFragmentPresenter() {

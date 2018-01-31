@@ -2,6 +2,7 @@ package com.jankrav.learnretrofitusingfragmens.model.client;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
@@ -19,7 +20,6 @@ public class GitHubClient {
 
 
     private GitHubClient() {
-
     }
 
 

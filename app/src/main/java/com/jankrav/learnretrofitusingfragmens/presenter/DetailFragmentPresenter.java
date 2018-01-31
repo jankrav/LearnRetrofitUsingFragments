@@ -10,8 +10,17 @@ public class DetailFragmentPresenter implements DetailPresenter {
     private GitHubClient client = GitHubClient.getInstance();
     private DetailFragmentView view;
 
-    public DetailFragmentPresenter(DetailFragmentView view) {
+    public DetailFragmentPresenter() {
+    }
+
+    @Override
+    public void onAttachView(DetailFragmentView view) {
         this.view = view;
+    }
+
+    @Override
+    public void onDetachView() {
+        view = null;
     }
 
     @Override

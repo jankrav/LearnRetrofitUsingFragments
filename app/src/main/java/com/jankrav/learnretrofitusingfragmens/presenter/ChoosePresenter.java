@@ -2,6 +2,7 @@ package com.jankrav.learnretrofitusingfragmens.presenter;
 
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface ChoosePresenter {
     //model methods
     void requestResponse(List<GitHubRepo> repos);
     void requestFailure(Throwable t);
+
 }
