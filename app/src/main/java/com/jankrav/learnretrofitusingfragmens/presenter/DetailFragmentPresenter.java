@@ -30,6 +30,6 @@ public class DetailFragmentPresenter implements DetailPresenter {
 
     @Override
     public void requestFailure(Throwable t) {
-
+        view.makeFailureToast();
     }
 }

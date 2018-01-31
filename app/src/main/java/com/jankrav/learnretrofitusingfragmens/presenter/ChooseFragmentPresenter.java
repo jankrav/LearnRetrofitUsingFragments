@@ -6,21 +6,31 @@ import android.support.annotation.VisibleForTesting;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
+import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
 import java.util.List;
 
 public class ChooseFragmentPresenter implements ChoosePresenter {
     private GitHubClient client = GitHubClient.getInstance();
-    @VisibleForTesting
     private ChooseFragmentView view;
 
-    public ChooseFragmentPresenter(ChooseFragmentView view) {
-        this.view = view;
+    public ChooseFragmentPresenter() {
     }
 
     @Override
     public void onUserChosen(String user) {
         client.getReposForUser(this, user);
+    }
+
+
+    @Override
+    public void onAttachView(ChooseFragmentView view) {
+        this.view = view;
+    }
+
+    @Override
+    public void onDetachView() {
+        view = null;
     }
 
     @Override

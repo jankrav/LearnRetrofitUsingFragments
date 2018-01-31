@@ -1,5 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -36,18 +37,25 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        presenter = new ChooseFragmentPresenter();
+        presenter.onAttachView(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        presenter.onDetachView();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        presenter = new ChooseFragmentPresenter(this);
         presenter.onUserChosen("jankrav");
         return inflater.inflate(R.layout.fragment_choose_repo, container, false);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter = null;
-    }
 
     @Override
     public void checkoutToDetailFragment(String repoOwnerLogin, String repoName) {
