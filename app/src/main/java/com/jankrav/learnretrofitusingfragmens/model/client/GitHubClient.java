@@ -14,7 +14,7 @@ import retrofit2.Response;
 public class GitHubClient {
     private static GitHubClient instance;
     private static final GitHubService service = ServiceGenerator.getDefaultService();
-    private List<GitHubRepo> repos;
+
 
     private GitHubClient() {
 
@@ -30,8 +30,8 @@ public class GitHubClient {
         service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
             @Override
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
-                repos = response.body();
-                presenter.requestResponse(repos);
+                //response.body return List<GitHubRepo>
+                presenter.requestResponse(response.body());
             }
 
             @Override

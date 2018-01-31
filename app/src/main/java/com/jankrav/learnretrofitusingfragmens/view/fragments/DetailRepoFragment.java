@@ -85,7 +85,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         outState.putString(BRANCH_KEY, defaultBranch.getText().toString());
     }
 
-
+    // DetailFragmentView methods
     @Override
     public void showInfo(GitHubRepo repo) {
         if (!TextUtils.isEmpty(repo.getName()))

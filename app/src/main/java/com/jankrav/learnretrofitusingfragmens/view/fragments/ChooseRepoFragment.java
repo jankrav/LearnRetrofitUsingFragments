@@ -28,15 +28,8 @@ import java.util.List;
 public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
-    //views
-    private RecyclerView recyclerView;
-    private TextView loginTextView;
 
-    private ImageView avatarImageView;
-    //other
     private ChoosePresenter presenter;
-    private DetailRepoFragment detail;
-
 
     public ChooseRepoFragment() {
         // Required empty public constructor
@@ -45,12 +38,16 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         presenter = new ChooseFragmentPresenter(this);
         presenter.onUserChosen("jankrav");
         return inflater.inflate(R.layout.fragment_choose_repo, container, false);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter = null;
+    }
 
     @Override
     public void checkoutToDetailFragment(String repoOwnerLogin, String repoName) {
@@ -59,7 +56,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         bundle.putString(REPO_OWNER_LOGIN, repoOwnerLogin);
         bundle.putString(REPO_NAME, repoName);
 
-        detail = new DetailRepoFragment();
+        DetailRepoFragment detail = new DetailRepoFragment();
 
         detail.setArguments(bundle);
 
@@ -70,15 +67,20 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         transaction.commit();
     }
 
+
     @Override
     public void showInfo(List<GitHubRepo> repos) {
-        loginTextView = getView().findViewById(R.id.login);
-        avatarImageView = getView().findViewById(R.id.avatarPhoto);
-        recyclerView = getView().findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //user login
+        TextView loginTextView = getView().findViewById(R.id.login);
+        loginTextView.setText(repos.get(0).getOwner().getLogin());
+        // show user avatar
+        ImageView avatarImageView = getView().findViewById(R.id.avatarPhoto);
         Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
                 .into(avatarImageView);
-        loginTextView.setText(repos.get(0).getOwner().getLogin());
+
+        // list of the repos
+        RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new GitHubRepoAdapter(repos, presenter));
     }
 
