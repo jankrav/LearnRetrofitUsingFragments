@@ -41,15 +41,13 @@ public class GitHubClient {
         });
     }
 
-    public GitHubRepo getRepoInfo(final DetailPresenter presenter, int id) {
-        String owner = repos.get(id).getOwner().getLogin();
-        String repo = repos.get(id).getName();
-        service.repoForUser(owner, repo).enqueue(new Callback<GitHubRepo>() {
+    public void getRepoInfo(final DetailPresenter presenter, String repoOwnerLogin, String repoName) {
+        service.repoForUser(repoOwnerLogin, repoName).enqueue(new Callback<GitHubRepo>() {
             // if server response than ...
             @Override
             public void onResponse(Call<GitHubRepo> call, Response<GitHubRepo> response) {
-                GitHubRepo repo = response.body();
-                presenter.requestResponse(repo);
+                // response.body - return repo info  by owner login and repo name;
+                presenter.requestResponse(response.body());
             }
 
             // if smth goes wrong than ...
@@ -58,7 +56,6 @@ public class GitHubClient {
                 presenter.requestFailure(t);
             }
         });
-        return null;
     }
 
 

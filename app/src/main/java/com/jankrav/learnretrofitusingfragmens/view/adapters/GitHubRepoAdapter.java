@@ -45,7 +45,9 @@ public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Ho
             @Override
             public void onClick(View v) {
                 if (presenter != null)
-                    presenter.onSelectedRepo(position);
+                    presenter.onSelectedRepo(
+                            repos.get(position).getOwner().getLogin(),
+                            repos.get(position).getName());
             }
         });
     }

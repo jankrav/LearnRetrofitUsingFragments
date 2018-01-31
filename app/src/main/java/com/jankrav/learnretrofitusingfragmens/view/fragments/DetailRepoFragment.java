@@ -55,7 +55,12 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             watchers.setText(savedInstanceState.getString(WATCHERS_KEY));
             defaultBranch.setText(savedInstanceState.getString(BRANCH_KEY));
         }
-        else presenter.onSelectedRepo(getArguments().getInt(ChooseRepoFragment.REPO_LIST_ID));
+        else {
+            Bundle bundle = getArguments();
+            String repoOwnerLogin = bundle.getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
+            String repoName = bundle.getString(ChooseRepoFragment.REPO_NAME);
+            presenter.onSelectedRepo(repoOwnerLogin, repoName);
+        }
 
         return fragmentView;
     }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ChoosePresenter {
     //view listeners methods
-    void onSelectedRepo(int repoListId);
+    void onSelectedRepo(String repoOwnerLogin, String repoName);
     void onUserChosen(String user);
 
 

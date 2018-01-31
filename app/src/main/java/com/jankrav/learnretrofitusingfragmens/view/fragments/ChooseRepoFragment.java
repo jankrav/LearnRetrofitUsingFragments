@@ -26,16 +26,16 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
-    public static String REPO_LIST_ID = "REPO_ID";
+    public static final String REPO_NAME = "REPO_NAME";
+    public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
     //views
     private RecyclerView recyclerView;
     private TextView loginTextView;
-    private ImageView avatarImageView;
 
+    private ImageView avatarImageView;
     //other
     private ChoosePresenter presenter;
     private DetailRepoFragment detail;
-
 
 
     public ChooseRepoFragment() {
@@ -53,9 +53,11 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
 
 
     @Override
-    public void checkoutToDetailFragment(int repoListId) {
+    public void checkoutToDetailFragment(String repoOwnerLogin, String repoName) {
         Bundle bundle = new Bundle();
-        bundle.putInt(REPO_LIST_ID, repoListId);
+
+        bundle.putString(REPO_OWNER_LOGIN, repoOwnerLogin);
+        bundle.putString(REPO_NAME, repoName);
 
         detail = new DetailRepoFragment();
 

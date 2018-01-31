@@ -1,5 +1,7 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
@@ -7,16 +9,12 @@ import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 import java.util.List;
 
 public class ChooseFragmentPresenter implements ChoosePresenter {
-    private ChooseFragmentView view;
     private GitHubClient client = GitHubClient.getInstance();
+    @VisibleForTesting
+    private ChooseFragmentView view;
 
     public ChooseFragmentPresenter(ChooseFragmentView view) {
         this.view = view;
-    }
-
-    @Override
-    public void onSelectedRepo(int id) {
-        view.checkoutToDetailFragment(id);
     }
 
     @Override
@@ -24,6 +22,11 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
         if(user != null)
             client.getReposForUser(this, user);
         else throw new NullPointerException("User's login is equals null");
+    }
+
+    @Override
+    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
+        view.checkoutToDetailFragment(repoOwnerLogin, repoName);
     }
 
     @Override

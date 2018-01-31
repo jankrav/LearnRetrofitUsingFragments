@@ -13,8 +13,8 @@ public class DetailFragmentPresenter implements DetailPresenter {
     }
 
     @Override
-    public void onSelectedRepo(int id) {
-        client.getRepoInfo(this, id);
+    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
+        client.getRepoInfo(this, repoOwnerLogin, repoName);
     }
 
     @Override
