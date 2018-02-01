@@ -23,7 +23,7 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
 
 
     @Override
-    public void onAttachView(ChooseFragmentView view) {
+     public void onAttachView(ChooseFragmentView view) {
         this.view = view;
     }
 

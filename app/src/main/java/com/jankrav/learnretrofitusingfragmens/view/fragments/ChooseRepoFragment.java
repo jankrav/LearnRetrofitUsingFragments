@@ -31,6 +31,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
     private ChoosePresenter presenter;
+    private View view;
 
     public ChooseRepoFragment() {
         // Required empty public constructor
@@ -41,6 +42,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         super.onAttach(context);
         presenter = new ChooseFragmentPresenter();
         presenter.onAttachView(this);
+
     }
 
     @Override
@@ -52,8 +54,11 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         presenter.onUserChosen("jankrav");
-        return inflater.inflate(R.layout.fragment_choose_repo, container, false);
+
+        view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
+        return view;
     }
 
 
@@ -79,32 +84,32 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     @Override
     public void showInfo(List<GitHubRepo> repos) {
         //user login
-        TextView loginTextView = getView().findViewById(R.id.login);
+        TextView loginTextView = view.findViewById(R.id.login);
         loginTextView.setText(repos.get(0).getOwner().getLogin());
         // show user avatar
-        ImageView avatarImageView = getView().findViewById(R.id.avatarPhoto);
+        ImageView avatarImageView = view.findViewById(R.id.avatarPhoto);
         Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
                 .into(avatarImageView);
 
         // list of the repos
-        RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new GitHubRepoAdapter(repos, presenter));
     }
 
     @Override
     public void makeReposIsNullToast() {
-        Toast.makeText(getContext(), "Server return that repos is null", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "Server return that repos is null", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void makeFailureToast() {
-        Toast.makeText(getContext(), "The network is failure", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "The network is failure", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void makeGoodToast() {
-        Toast.makeText(getContext(), "Network is response ;)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), "Network is response ;)", Toast.LENGTH_SHORT).show();
     }
 
 }

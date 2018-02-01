@@ -27,10 +27,10 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     private static String LANGUAGE_KEY = "1301";
     private static String BRANCH_KEY = "1997";
     private static String WATCHERS_KEY = "1972";
-
     private TextView name, language, description, watchers, defaultBranch;
 
-    private DetailPresenter presenter;
+    private DetailPresenter presenter = new DetailFragmentPresenter();
+
     private View fragmentView;
 
     public DetailRepoFragment() {
@@ -40,7 +40,6 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        presenter = new DetailFragmentPresenter();
         presenter.onAttachView(this);
     }
 

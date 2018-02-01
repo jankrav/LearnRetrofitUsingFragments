@@ -11,7 +11,6 @@ public interface ChoosePresenter {
     //presenter events
     void onAttachView(ChooseFragmentView view);
     void onDetachView();
-
     //view listeners methods
     void onSelectedRepo(String repoOwnerLogin, String repoName);
     void onUserChosen(String user);

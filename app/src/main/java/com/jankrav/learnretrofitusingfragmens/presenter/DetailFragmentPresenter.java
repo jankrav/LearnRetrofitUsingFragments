@@ -20,7 +20,7 @@ public class DetailFragmentPresenter implements DetailPresenter {
 
     @Override
     public void onDetachView() {
-        view = null;
+//        view = null;
     }
 
     @Override
