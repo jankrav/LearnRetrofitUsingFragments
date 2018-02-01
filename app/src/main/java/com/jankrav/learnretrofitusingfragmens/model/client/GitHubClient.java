@@ -1,52 +1,44 @@
 package com.jankrav.learnretrofitusingfragmens.model.client;
 
 
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
 import java.util.List;
+import java.util.Observable;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GitHubClient {
-    private static GitHubClient instance;
+public class GitHubClient implements ChooseGitHubClient, DetailGitHubClient {
     private static final GitHubService service = ServiceGenerator.getDefaultService();
 
 
-    private GitHubClient() {
+    public GitHubClient() {
     }
 
+    @Override
+    public void getReposForUser(final ChoosePresenter presenter, String userLogin) {
 
-    public static GitHubClient getInstance() {
-        if (instance == null) instance = new GitHubClient();
-        return instance;
+        service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
+            @Override
+            public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
+                //response.body return List<GitHubRepo>
+                presenter.requestResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
+                presenter.requestFailure(t);
+            }
+        });
+
     }
 
-    public void getReposForUser(final ChoosePresenter presenter, @NonNull String userLogin) {
-        if (!userLogin.equals(""))
-            service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
-                @Override
-                public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
-                    //response.body return List<GitHubRepo>
-                    presenter.requestResponse(response.body());
-                }
-
-                @Override
-                public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
-                    presenter.requestFailure(t);
-                }
-            });
-        else throw new NullPointerException("User's login is null!");
-    }
-
+    @Override
     public void getRepoInfo(final DetailPresenter presenter, String repoOwnerLogin, String repoName) {
-
         service.repoForUser(repoOwnerLogin, repoName).enqueue(new Callback<GitHubRepo>() {
             // if server response than ...
             @Override

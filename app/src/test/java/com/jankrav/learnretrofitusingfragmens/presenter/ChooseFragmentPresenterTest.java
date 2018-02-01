@@ -1,6 +1,7 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
+import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,22 +10,34 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 
 public class ChooseFragmentPresenterTest {
     private static String userName = "USER";
     private static String repoName = "REPO";
-
-
     @Mock
-    private ChooseFragmentView view;
+    ChoosePresenter presenter;
 
-    @Mock
-    private ChooseFragmentPresenter presenter;
+    ChooseFragmentView view;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter.onAttachView(view);
+        view = new ChooseRepoFragment();
+        view.setPresenter(presenter);
+    }
+
+    @Test
+    public void onAttachView_isCalled() throws Exception {
+        verify(presenter).onAttachView(view);
+    }
+
+
+    @Test
+    public void onDetachView_isCalled() throws Exception {
+        presenter.onDetachView();
+        verify(presenter).onDetachView();
     }
 
     @Test(expected = NullPointerException.class)
@@ -52,6 +65,5 @@ public class ChooseFragmentPresenterTest {
         doThrow(new NullPointerException()).when(presenter).onSelectedRepo(userName, "");
         presenter.onSelectedRepo(userName, "");
     }
-
-
 }
+

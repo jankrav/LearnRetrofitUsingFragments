@@ -7,7 +7,7 @@ import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 
 public class DetailFragmentPresenter implements DetailPresenter {
-    private GitHubClient client = GitHubClient.getInstance();
+    private GitHubClient client = new GitHubClient();
     private DetailFragmentView view;
 
     public DetailFragmentPresenter() {
@@ -20,7 +20,7 @@ public class DetailFragmentPresenter implements DetailPresenter {
 
     @Override
     public void onDetachView() {
-//        view = null;
+        view = null;
     }
 
     @Override

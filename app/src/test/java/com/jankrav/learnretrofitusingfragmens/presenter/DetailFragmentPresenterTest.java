@@ -18,7 +18,7 @@ public class DetailFragmentPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-         view = new DetailRepoFragment();
+        view = new DetailRepoFragment();
     }
 
     @Test
@@ -32,5 +32,5 @@ public class DetailFragmentPresenterTest {
         doThrow(new NullPointerException()).when(presenter).onSelectedRepo(null, null);
         presenter.onSelectedRepo(null, null);
     }
-
 }
+

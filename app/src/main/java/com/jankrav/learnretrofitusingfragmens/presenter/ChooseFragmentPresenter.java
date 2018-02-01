@@ -3,13 +3,14 @@ package com.jankrav.learnretrofitusingfragmens.presenter;
 import android.support.annotation.NonNull;
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.model.client.ChooseGitHubClient;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
 import java.util.List;
 
 public class ChooseFragmentPresenter implements ChoosePresenter {
-    private GitHubClient client = GitHubClient.getInstance();
+    private ChooseGitHubClient client = new GitHubClient();
 
     private ChooseFragmentView view;
 
@@ -33,7 +34,7 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
     }
 
     @Override
-    public void onSelectedRepo(@NonNull String repoOwnerLogin, @NonNull String repoName) {
+    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
         if (!repoOwnerLogin.equals("") && !repoName.equals(""))
             view.checkoutToDetailFragment(repoOwnerLogin, repoName);
         else throw new NullPointerException();

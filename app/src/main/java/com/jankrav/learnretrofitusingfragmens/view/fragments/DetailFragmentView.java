@@ -4,6 +4,7 @@ import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 
 public interface DetailFragmentView {
 
+
     void showInfo(GitHubRepo repo);
 
     void makeFailureToast();

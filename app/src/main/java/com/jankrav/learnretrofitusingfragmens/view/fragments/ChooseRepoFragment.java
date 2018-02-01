@@ -42,7 +42,6 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         super.onAttach(context);
         presenter = new ChooseFragmentPresenter();
         presenter.onAttachView(this);
-
     }
 
     @Override
@@ -61,6 +60,12 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         return view;
     }
 
+    // method for testing
+    @Override
+    public void setPresenter(ChoosePresenter presenter) {
+        this.presenter = presenter;
+        presenter.onAttachView(this);
+    }
 
     @Override
     public void checkoutToDetailFragment(String repoOwnerLogin, String repoName) {
