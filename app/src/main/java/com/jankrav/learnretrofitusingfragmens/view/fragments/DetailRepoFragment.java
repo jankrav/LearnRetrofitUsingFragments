@@ -30,11 +30,17 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     private TextView name, language, description, watchers, defaultBranch;
 
     private DetailPresenter presenter = new DetailFragmentPresenter();
-
-    private View fragmentView;
+//    private DetailPresenter presenter;
+    private View view;
 
     public DetailRepoFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void setPresenter(DetailPresenter presenter) {
+        this.presenter = presenter;
+        presenter.onAttachView(this);
     }
 
     @Override
@@ -47,7 +53,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentView = inflater.inflate(R.layout.fragment_detail_repo, container, false);
+        view = inflater.inflate(R.layout.fragment_detail_repo, container, false);
 
         initFields();
 
@@ -64,7 +70,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             presenter.onSelectedRepo(repoOwnerLogin, repoName);
         }
 
-        return fragmentView;
+        return view;
     }
 
     @Override
@@ -74,12 +80,12 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
     private void initFields() {
-        if (fragmentView != null) {
-            name = fragmentView.findViewById(R.id.name);
-            language = fragmentView.findViewById(R.id.language);
-            description = fragmentView.findViewById(R.id.description);
-            watchers = fragmentView.findViewById(R.id.watchers);
-            defaultBranch = fragmentView.findViewById(R.id.defaultBranch);
+        if (view != null) {
+            name = view.findViewById(R.id.name);
+            language = view.findViewById(R.id.language);
+            description = view.findViewById(R.id.description);
+            watchers = view.findViewById(R.id.watchers);
+            defaultBranch = view.findViewById(R.id.defaultBranch);
         }
     }
 

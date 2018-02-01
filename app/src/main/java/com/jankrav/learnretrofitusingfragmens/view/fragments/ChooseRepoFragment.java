@@ -30,17 +30,24 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
-    private ChoosePresenter presenter;
+    private ChoosePresenter presenter = new ChooseFragmentPresenter();;
     private View view;
 
     public ChooseRepoFragment() {
         // Required empty public constructor
     }
 
+    // method for testing
+    @Override
+    public void setPresenter(ChoosePresenter presenter) {
+        this.presenter = presenter;
+        presenter.onAttachView(this);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        presenter = new ChooseFragmentPresenter();
+
         presenter.onAttachView(this);
     }
 
@@ -58,13 +65,6 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
 
         view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
         return view;
-    }
-
-    // method for testing
-    @Override
-    public void setPresenter(ChoosePresenter presenter) {
-        this.presenter = presenter;
-        presenter.onAttachView(this);
     }
 
     @Override

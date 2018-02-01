@@ -19,16 +19,17 @@ public class GitHubClient implements ChooseGitHubClient, DetailGitHubClient {
     public GitHubClient() {
     }
 
+//   get data to the
     @Override
     public void getReposForUser(final ChoosePresenter presenter, String userLogin) {
 
         service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
+
             @Override
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
                 //response.body return List<GitHubRepo>
                 presenter.requestResponse(response.body());
             }
-
             @Override
             public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
                 presenter.requestFailure(t);

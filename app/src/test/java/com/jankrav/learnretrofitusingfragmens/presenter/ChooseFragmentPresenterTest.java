@@ -1,29 +1,35 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import com.jankrav.learnretrofitusingfragmens.model.client.ChooseGitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class ChooseFragmentPresenterTest {
     private static String userName = "USER";
     private static String repoName = "REPO";
     @Mock
     ChoosePresenter presenter;
+    @Mock
+    ChooseGitHubClient client;
 
     ChooseFragmentView view;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        presenter.setClient(client);
         view = new ChooseRepoFragment();
         view.setPresenter(presenter);
     }
@@ -33,12 +39,6 @@ public class ChooseFragmentPresenterTest {
         verify(presenter).onAttachView(view);
     }
 
-
-    @Test
-    public void onDetachView_isCalled() throws Exception {
-        presenter.onDetachView();
-        verify(presenter).onDetachView();
-    }
 
     @Test(expected = NullPointerException.class)
     public void onUserChosen_NullPointerException() throws Exception {
@@ -64,6 +64,20 @@ public class ChooseFragmentPresenterTest {
         presenter.onSelectedRepo("", repoName);
         doThrow(new NullPointerException()).when(presenter).onSelectedRepo(userName, "");
         presenter.onSelectedRepo(userName, "");
+    }
+    
+    @Test
+    public void onUserChoosen_clientTransaction() throws Exception{
+        presenter.onUserChosen(userName);
+        verify(presenter).onUserChosen(userName);
+        client.getReposForUser(presenter, userName);
+        verify(client).getReposForUser(presenter, userName);
+    }
+
+    @Test
+    public void onDetachView_isCalled() throws Exception {
+        presenter.onDetachView();
+        verify(presenter).onDetachView();
     }
 }
 

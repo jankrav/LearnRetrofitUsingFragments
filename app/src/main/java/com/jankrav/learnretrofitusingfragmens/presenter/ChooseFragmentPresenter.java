@@ -10,12 +10,19 @@ import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 import java.util.List;
 
 public class ChooseFragmentPresenter implements ChoosePresenter {
-    private ChooseGitHubClient client = new GitHubClient();
+    private ChooseGitHubClient client;
 
     private ChooseFragmentView view;
 
     public ChooseFragmentPresenter() {
+        client = new GitHubClient();
     }
+
+    //only for testing
+//    public ChooseFragmentPresenter(ChooseGitHubClient client){
+//        this.client = client;
+//    }
+
 
     @Override
     public void onUserChosen(String user) {
@@ -31,6 +38,12 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
     @Override
     public void onDetachView() {
         view = null;
+    }
+
+    //For testing
+    @Override
+    public void setClient(ChooseGitHubClient client) {
+        this.client = client;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.jankrav.learnretrofitusingfragmens.presenter;
 
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.model.client.ChooseGitHubClient;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
@@ -11,6 +12,8 @@ public interface ChoosePresenter {
     //presenter events
     void onAttachView(ChooseFragmentView view);
     void onDetachView();
+    void setClient(ChooseGitHubClient client);
+
     //view listeners methods
     void onSelectedRepo(String repoOwnerLogin, String repoName);
     void onUserChosen(String user);
