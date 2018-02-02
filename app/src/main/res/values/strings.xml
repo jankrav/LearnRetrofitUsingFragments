@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LearnRetrofitUsingFragmens</string>
+    <string name="app_name">GitHubViewer</string>
     <string name="action_settings">Settings</string>
     <string name="defaultBranch">default branch: </string>
     <string name="watchers">Watchers: </string>

@@ -53,7 +53,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             description = view.findViewById(R.id.description);
             watchers = view.findViewById(R.id.watchers);
             defaultBranch = view.findViewById(R.id.defaultBranch);
-        }
+        } else Toast.makeText(getContext(), "Error. Can't find resource. Restart app!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -99,16 +99,11 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     // DetailFragmentView methods
     @Override
     public void showInfo(GitHubRepo repo) {
-        if (!TextUtils.isEmpty(repo.getName()))
-            name.setText(repo.getName());
-        if (!TextUtils.isEmpty(repo.getLanguage()))
-            language.setText(repo.getLanguage());
-        if (!TextUtils.isEmpty(repo.getDescription()))
-            description.setText(repo.getDescription());
-        if (!TextUtils.isEmpty(repo.getWatchers().toString()))
-            watchers.setText(repo.getWatchers().toString());
-        if (!TextUtils.isEmpty(repo.getDefaultBranch()))
-            defaultBranch.setText(repo.getDefaultBranch());
+        name.setText(repo.getName());
+        language.setText(repo.getLanguage());
+        description.setText(repo.getDescription());
+        watchers.setText(repo.getWatchers().toString());
+        defaultBranch.setText(repo.getDefaultBranch());
     }
 
     @Override

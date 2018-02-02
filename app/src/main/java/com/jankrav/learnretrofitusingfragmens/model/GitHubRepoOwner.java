@@ -3,26 +3,21 @@ package com.jankrav.learnretrofitusingfragmens.model;
 import com.google.gson.annotations.SerializedName;
 
 public class GitHubRepoOwner {
-    private String login;
+    @SerializedName("id")
     private Integer id;
-    private String url;
-    private String type;
+
+    @SerializedName("login")
+    private String login;
+
     @SerializedName("avatar_url")
     private String avatarUrl;
-    public String getLogin() {
-        return login;
-    }
 
     public Integer getId() {
         return id;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public String getType() {
-        return type;
+    public String getLogin() {
+        return login;
     }
 
     public String getAvatarUrl() {

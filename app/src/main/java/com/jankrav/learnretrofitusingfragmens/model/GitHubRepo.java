@@ -3,14 +3,18 @@ package com.jankrav.learnretrofitusingfragmens.model;
 import com.google.gson.annotations.SerializedName;
 
 public class GitHubRepo {
+    @SerializedName("id")
     private Integer id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("description")
     private String description;
+    @SerializedName("watchers")
     private Integer watchers;
+    @SerializedName("language")
     private String language;
     @SerializedName("default_branch")
     private String defaultBranch;
-
     @SerializedName("owner")
     private GitHubRepoOwner owner;
 
@@ -43,6 +47,27 @@ public class GitHubRepo {
 
     public GitHubRepoOwner getOwner() {
         return owner;
+    }
+
+//     Setter's need for validate info about User
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setWatchers(Integer watchers) {
+        this.watchers = watchers;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
     }
 
     @Override

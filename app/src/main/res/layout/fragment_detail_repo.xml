@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="@string/default_name_repo_field"
                 android:textSize="24sp"
                 android:textStyle="bold" />
             <!--language-->
@@ -34,7 +33,6 @@
                 android:layout_below="@id/name"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="6dp"
-                android:text="@string/default_language_field"
                 android:textColor="@color/colorYellow"
                 android:textSize="16sp" />
 
@@ -46,7 +44,6 @@
                 android:layout_alignLeft="@id/language"
                 android:layout_below="@id/language"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:text="@string/default_description_field"
                 android:textSize="18dp"
                 android:textStyle="italic" />
 
@@ -66,7 +63,7 @@
                 android:layout_alignBottom="@id/textWatchers"
                 android:layout_alignLeft="@id/defaultBranch"
                 android:layout_toRightOf="@id/textWatchers"
-                android:text="0" />
+                />
 
             <!--defaultBranch-->
             <TextView
@@ -84,7 +81,7 @@
                 android:layout_alignBottom="@id/defaultBranchText"
                 android:layout_marginLeft="@dimen/activity_component_margin"
                 android:layout_toRightOf="@id/defaultBranchText"
-                android:text="master" />
+                />
         </RelativeLayout>
 
     </ScrollView>
