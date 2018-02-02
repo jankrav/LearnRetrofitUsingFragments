@@ -32,7 +32,11 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
     private ChoosePresenter presenter = new ChooseFragmentPresenter();
-//    private View view;
+
+
+    private TextView loginTextView;
+    private ImageView avatarImageView;
+    private RecyclerView recyclerView;
 
     public ChooseRepoFragment() {
         // Required empty public constructor
@@ -45,10 +49,21 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         presenter.onAttachView(this);
     }
 
+    private void initFields(View view){
+        loginTextView = view.findViewById(R.id.loginTextView);
+        avatarImageView = view.findViewById(R.id.avatarImageView);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+//        set up layout manager
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_choose_repo, container, false);
+        View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
+        initFields(view);
+        return view;
     }
 
     @Override
@@ -90,17 +105,14 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
 
     @Override
     public void showInfo(List<GitHubRepo> repos) {
-        //user login
-        TextView loginTextView = getView().findViewById(R.id.login);
+        // show user login
         loginTextView.setText(repos.get(0).getOwner().getLogin());
+
         // show user avatar
-        ImageView avatarImageView = getView().findViewById(R.id.avatarPhoto);
         Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
                 .into(avatarImageView);
 
         // list of the repos
-        RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new GitHubRepoAdapter(repos, presenter));
     }
 

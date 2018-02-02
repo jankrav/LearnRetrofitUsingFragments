@@ -21,7 +21,7 @@
             <!--/user photo-->
 
             <ImageView
-                android:id="@+id/avatarPhoto"
+                android:id="@+id/avatarImageView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
@@ -29,7 +29,7 @@
             <!-- user login-->
 
             <TextView
-                android:id="@+id/login"
+                android:id="@+id/loginTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"

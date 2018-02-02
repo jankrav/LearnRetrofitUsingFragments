@@ -14,6 +14,7 @@ public class DetailFragmentPresenter implements DetailPresenter {
     public DetailFragmentPresenter() {
     }
 
+//    for testing
     @Override
     public void setClient(DetailGitHubClient client) {
         this.client = client;
@@ -30,7 +31,7 @@ public class DetailFragmentPresenter implements DetailPresenter {
     }
 
     @Override
-    public void onSelectedRepo(@NonNull String repoOwnerLogin, @NonNull String repoName) {
+    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
         client.getRepoInfo(this, repoOwnerLogin, repoName);
     }
 

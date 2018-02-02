@@ -22,17 +22,11 @@ import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
  */
 public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
-    private static String REPO_KEY = "2502";
-    private static String DESCRIPTION_KEY = "1998";
-    private static String LANGUAGE_KEY = "1301";
-    private static String BRANCH_KEY = "1997";
-    private static String WATCHERS_KEY = "1972";
     private TextView name, language, description, watchers, defaultBranch;
 
     private DetailPresenter presenter = new DetailFragmentPresenter();
-//    private DetailPresenter presenter;
-    private View view;
-    //users info
+
+    // data about current user
     private String repoOwnerLogin;
     private String repoName;
 
@@ -52,37 +46,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         presenter.onAttachView(this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_detail_repo, container, false);
-
-        initFields();
-
-        if (savedInstanceState != null) {
-            name.setText(savedInstanceState.getString(REPO_KEY));
-            language.setText(savedInstanceState.getString(LANGUAGE_KEY));
-            description.setText(savedInstanceState.getString(DESCRIPTION_KEY));
-            watchers.setText(savedInstanceState.getString(WATCHERS_KEY));
-            defaultBranch.setText(savedInstanceState.getString(BRANCH_KEY));
-        } else {
-            Bundle bundle = getArguments();
-            String repoOwnerLogin = bundle.getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
-            String repoName = bundle.getString(ChooseRepoFragment.REPO_NAME);
-            presenter.onSelectedRepo(repoOwnerLogin, repoName);
-        }
-
-        return view;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        presenter.onDetachView();
-    }
-
-    private void initFields() {
+    private void initFields(View view) {
         if (view != null) {
             name = view.findViewById(R.id.name);
             language = view.findViewById(R.id.language);
@@ -93,13 +57,43 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_detail_repo, container, false);
+
+        initFields(view);
+
+        // fragment first lauch
+        if (savedInstanceState == null) {
+            repoOwnerLogin = getArguments().getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
+            repoName = getArguments().getString(ChooseRepoFragment.REPO_NAME);
+        }
+        else{
+            repoOwnerLogin = savedInstanceState.getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
+            repoName = savedInstanceState.getString(ChooseRepoFragment.REPO_NAME);
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.onSelectedRepo(repoOwnerLogin,repoName);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(REPO_KEY, name.getText().toString());
-        outState.putString(LANGUAGE_KEY, language.getText().toString());
-        outState.putString(DESCRIPTION_KEY, description.getText().toString());
-        outState.putString(WATCHERS_KEY, watchers.getText().toString());
-        outState.putString(BRANCH_KEY, defaultBranch.getText().toString());
+        outState.putString(ChooseRepoFragment.REPO_OWNER_LOGIN, repoOwnerLogin);
+        outState.putString(ChooseRepoFragment.REPO_NAME, repoName);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        presenter.onDetachView();
     }
 
     // DetailFragmentView methods
