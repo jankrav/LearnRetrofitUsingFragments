@@ -32,6 +32,9 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     private DetailPresenter presenter = new DetailFragmentPresenter();
 //    private DetailPresenter presenter;
     private View view;
+    //users info
+    private String repoOwnerLogin;
+    private String repoName;
 
     public DetailRepoFragment() {
         // Required empty public constructor

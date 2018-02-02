@@ -2,6 +2,7 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +31,8 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
-    private ChoosePresenter presenter = new ChooseFragmentPresenter();;
-    private View view;
+    private ChoosePresenter presenter = new ChooseFragmentPresenter();
+//    private View view;
 
     public ChooseRepoFragment() {
         // Required empty public constructor
@@ -45,26 +46,27 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_choose_repo, container, false);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         presenter.onAttachView(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.onUserChosen("jankrav");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         presenter.onDetachView();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        presenter.onUserChosen("jankrav");
-
-        view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
-        return view;
     }
 
     @Override
@@ -89,32 +91,32 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     @Override
     public void showInfo(List<GitHubRepo> repos) {
         //user login
-        TextView loginTextView = view.findViewById(R.id.login);
+        TextView loginTextView = getView().findViewById(R.id.login);
         loginTextView.setText(repos.get(0).getOwner().getLogin());
         // show user avatar
-        ImageView avatarImageView = view.findViewById(R.id.avatarPhoto);
+        ImageView avatarImageView = getView().findViewById(R.id.avatarPhoto);
         Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
                 .into(avatarImageView);
 
         // list of the repos
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new GitHubRepoAdapter(repos, presenter));
     }
 
     @Override
     public void makeReposIsNullToast() {
-        Toast.makeText(view.getContext(), "Server return that repos is null", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Server return that repos is null", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void makeFailureToast() {
-        Toast.makeText(view.getContext(), "The network is failure", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "The network is failure", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void makeGoodToast() {
-        Toast.makeText(view.getContext(), "Network is response ;)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Network is response ;)", Toast.LENGTH_SHORT).show();
     }
 
 }
