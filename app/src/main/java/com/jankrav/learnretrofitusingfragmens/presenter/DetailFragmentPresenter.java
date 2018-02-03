@@ -21,6 +21,12 @@ public class DetailFragmentPresenter implements DetailPresenter {
         this.client = client;
     }
 
+//    for testing
+    @Override
+    public DetailFragmentView getView() {
+        return view;
+    }
+
     @Override
     public void onAttachView(DetailFragmentView view) {
         this.view = view;

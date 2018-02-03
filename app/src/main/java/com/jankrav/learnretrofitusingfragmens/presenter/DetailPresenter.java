@@ -17,4 +17,6 @@ public interface DetailPresenter {
     void requestFailure(Throwable t);
 
     void setClient(DetailGitHubClient client);
+
+    DetailFragmentView getView();
 }
