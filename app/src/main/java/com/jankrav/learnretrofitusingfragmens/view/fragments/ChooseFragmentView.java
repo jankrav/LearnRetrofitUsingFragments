@@ -17,4 +17,8 @@ public interface ChooseFragmentView {
     void makeFailureToast();
 
     void makeGoodToast();
+
+    void makeUserInfoFailureToast();
+
+    void makeToast(String message);
 }

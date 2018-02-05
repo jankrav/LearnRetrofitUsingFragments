@@ -1,7 +1,5 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
-import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.DetailGitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailRepoFragment;
 

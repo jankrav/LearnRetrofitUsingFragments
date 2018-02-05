@@ -1,6 +1,5 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
-import com.jankrav.learnretrofitusingfragmens.model.client.ChooseGitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 

@@ -1,60 +1,35 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
-import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.ChooseGitHubClient;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
 import java.util.List;
 
-public class ChooseFragmentPresenter implements ChoosePresenter {
-    private ChooseGitHubClient client;
+public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.OnChooserDataLoadedListener{
+    private GitHubClient client = GitHubClient.newInstance();
 
     private ChooseFragmentView view;
 
     public ChooseFragmentPresenter() {
-        client = new GitHubClient();
-    }
 
-    //only for testing
-//    public ChooseFragmentPresenter(ChooseGitHubClient client){
-//        this.client = client;
-//    }
-
-
-    @Override
-    public void onUserChosen(String user) {
-        client.getReposForUser(this, user);
-    }
-
-
-    @Override
-     public void onAttachView(ChooseFragmentView view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetachView() {
-        view = null;
     }
 
     //For testing
     @Override
-    public void setClient(ChooseGitHubClient client) {
+    public void setClient(GitHubClient client) {
         this.client = client;
     }
 
     @Override
-    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
-        if (!repoOwnerLogin.equals("") && !repoName.equals(""))
-            view.checkoutToDetailFragment(repoOwnerLogin, repoName);
-        else throw new NullPointerException();
+    public void onUserChosen(String user) {
+        client.getReposForUser(user, this);
     }
 
     @Override
-    public void requestResponse(List<GitHubRepo> repos) {
+    public void onResponse(List<GitHubRepo> repos) {
         if (repos != null) {
             view.showInfo(repos);
             view.makeGoodToast();
@@ -62,8 +37,31 @@ public class ChooseFragmentPresenter implements ChoosePresenter {
     }
 
     @Override
-    public void requestFailure(Throwable t) {
+    public void onFailure(Throwable t) {
         view.makeFailureToast();
     }
 
+    @Override
+    public void onError() {
+        view.makeToast("User login is empty");
+    }
+
+    @Override
+    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
+        if (!TextUtils.isEmpty(repoOwnerLogin) && !TextUtils.isEmpty(repoName))
+            view.checkoutToDetailFragment(repoOwnerLogin, repoName);
+        else view.makeUserInfoFailureToast();
+    }
+
+
+
+    @Override
+    public void onAttachView(ChooseFragmentView view) {
+        this.view = view;
+    }
+
+    @Override
+    public void onDetachView() {
+        view = null;
+    }
 }

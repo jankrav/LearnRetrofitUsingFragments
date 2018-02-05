@@ -13,4 +13,6 @@ public interface DetailFragmentView {
     void makeGoodToast();
 
     void makeRepoIsNullToast();
+
+    void makeToast(String message);
 }

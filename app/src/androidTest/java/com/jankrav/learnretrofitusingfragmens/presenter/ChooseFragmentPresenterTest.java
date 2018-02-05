@@ -2,7 +2,6 @@ package com.jankrav.learnretrofitusingfragmens.presenter;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.jankrav.learnretrofitusingfragmens.model.client.ChooseGitHubClient;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
@@ -12,8 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnit;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

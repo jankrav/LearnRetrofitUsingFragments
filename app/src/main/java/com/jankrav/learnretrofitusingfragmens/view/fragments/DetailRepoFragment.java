@@ -4,7 +4,6 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,15 +33,10 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         // Required empty public constructor
     }
 
+    // only for testing
     @Override
     public void setPresenter(DetailPresenter presenter) {
         this.presenter = presenter;
-        presenter.onAttachView(this);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
         presenter.onAttachView(this);
     }
 
@@ -53,7 +47,8 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             description = view.findViewById(R.id.description);
             watchers = view.findViewById(R.id.watchers);
             defaultBranch = view.findViewById(R.id.defaultBranch);
-        } else Toast.makeText(getContext(), "Error. Can't find resource. Restart app!", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(getContext(), "Error. Can't find resource. Restart app!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -68,8 +63,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         if (savedInstanceState == null) {
             repoOwnerLogin = getArguments().getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
             repoName = getArguments().getString(ChooseRepoFragment.REPO_NAME);
-        }
-        else{
+        } else {
             repoOwnerLogin = savedInstanceState.getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
             repoName = savedInstanceState.getString(ChooseRepoFragment.REPO_NAME);
         }
@@ -78,9 +72,24 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
     @Override
+    public void showInfo(GitHubRepo repo) {
+        name.setText(repo.getName());
+        language.setText(repo.getLanguage());
+        description.setText(repo.getDescription());
+        watchers.setText(repo.getWatchers().toString());
+        defaultBranch.setText(repo.getDefaultBranch());
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        presenter.onAttachView(this);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
-        presenter.onSelectedRepo(repoOwnerLogin,repoName);
+        presenter.onSelectedRepo(repoOwnerLogin, repoName);
     }
 
     @Override
@@ -96,19 +105,16 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         presenter.onDetachView();
     }
 
-    // DetailFragmentView methods
-    @Override
-    public void showInfo(GitHubRepo repo) {
-        name.setText(repo.getName());
-        language.setText(repo.getLanguage());
-        description.setText(repo.getDescription());
-        watchers.setText(repo.getWatchers().toString());
-        defaultBranch.setText(repo.getDefaultBranch());
-    }
+//    toast's
 
     @Override
     public void makeRepoIsNullToast() {
         Toast.makeText(getContext(), "Repo is null!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
