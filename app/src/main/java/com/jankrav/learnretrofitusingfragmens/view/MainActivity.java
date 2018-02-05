@@ -2,15 +2,12 @@ package com.jankrav.learnretrofitusingfragmens.view;
 
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
 public class MainActivity extends AppCompatActivity {
 

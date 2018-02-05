@@ -8,6 +8,8 @@ import java.util.List;
 public interface ChooseFragmentView {
     void setPresenter(ChoosePresenter presenter);
 
+
+
     void checkoutToDetailFragment(String repoOwnerLogin, String repoName);
 
     void showInfo(List<GitHubRepo> repos);
@@ -20,5 +22,5 @@ public interface ChooseFragmentView {
 
     void makeUserInfoFailureToast();
 
-    void makeToast(String message);
+    void makeUserLoginIsNullToast();
 }

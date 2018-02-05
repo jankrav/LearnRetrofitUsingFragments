@@ -1,9 +1,11 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import android.content.Context;
+
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
-import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,42 +13,85 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChooseFragmentPresenterTest {
-    private static String userName = "USER";
-    private static String repoName = "REPO";
     @Mock
-    ChoosePresenter presenter;
+    ChooseRepoFragment view;
+
+    @Mock
+    Context context;
+
     @Mock
     GitHubClient client;
 
-    ChooseFragmentView view;
+
+    ChooseFragmentPresenter presenter;
 
     @Before
-    public void setUp() {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
+        presenter = new ChooseFragmentPresenter();
         presenter.setClient(client);
-        view = new ChooseRepoFragment();
         view.setPresenter(presenter);
     }
 
+
+
     @Test
-    public void onAttachView_isCalled() throws Exception {
+    public void onChosenUser_getReposForUserCalled(){
+        presenter.onUserChosen("user");
+        verify(client).getReposForUser("user", presenter);
+    }
+
+    @Test
+    public void onSelectedRepo_callCheckOutToOtherFragment(){
+        // this must work without setView
+        presenter.setView(view);
+        presenter.onSelectedRepo("user", "repo");
+        verify(view).checkoutToDetailFragment("user", "repo");
+    }
+
+    @Test
+    public void onAttachView_called() throws Exception{
+        ChooseRepoFragment view = new ChooseRepoFragment();
+        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
+        view.setPresenter(presenter);
         verify(presenter).onAttachView(view);
     }
 
     @Test
-    public void onUserChoosen_clientTransaction() throws Exception {
-        presenter.onUserChosen(userName);
-        verify(presenter).onUserChosen(userName);
+    public void onDetach_called(){
+        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
+        ChooseRepoFragment view = new ChooseRepoFragment();
+        view.setPresenter(presenter);
+        view.onDetach();
+        verify(presenter).onDetachView();
     }
 
     @Test
-    public void onDetachView_isCalled() throws Exception {
-        presenter.onDetachView();
-        verify(presenter).onDetachView();
+    public void onError_called(){
+//        assertNotNull(view);
+//        setView must not invoke independently
+        assertNull(presenter.getView());
+        presenter.setView(view);
+        presenter.onError();
+        verify(view).makeUserLoginIsNullToast();
+    }
+
+    @Test public void setPresenter_onAttachViewRespond(){
+        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
+        ChooseRepoFragment view = new ChooseRepoFragment();
+        view.setPresenter(presenter);
+        verify(presenter).onAttachView(view);
+    }
+
+    @After
+    public void tearDown(){
+        presenter = null;
     }
 }
 

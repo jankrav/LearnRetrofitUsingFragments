@@ -17,12 +17,6 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
 
     }
 
-    //For testing
-    @Override
-    public void setClient(GitHubClient client) {
-        this.client = client;
-    }
-
     @Override
     public void onUserChosen(String user) {
         client.getReposForUser(user, this);
@@ -43,7 +37,7 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
 
     @Override
     public void onError() {
-        view.makeToast("User login is empty");
+        view.makeUserLoginIsNullToast();
     }
 
     @Override
@@ -53,8 +47,6 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
         else view.makeUserInfoFailureToast();
     }
 
-
-
     @Override
     public void onAttachView(ChooseFragmentView view) {
         this.view = view;
@@ -63,5 +55,18 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
     @Override
     public void onDetachView() {
         view = null;
+    }
+
+    //For testing
+    @Override public void setClient(GitHubClient client) {
+        this.client = client;
+    }
+
+    @Override public void setView(ChooseFragmentView view) {
+        this.view = view;
+    }
+
+    @Override public ChooseFragmentView getView() {
+        return view;
     }
 }

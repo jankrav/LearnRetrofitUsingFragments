@@ -32,7 +32,6 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
 
     private ChoosePresenter presenter = new ChooseFragmentPresenter();
 
-
     private TextView loginTextView;
     private ImageView avatarImageView;
     private RecyclerView recyclerView;
@@ -47,6 +46,8 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         this.presenter = presenter;
         presenter.onAttachView(this);
     }
+
+
 
     private void initFields(View view) {
         loginTextView = view.findViewById(R.id.loginTextView);
@@ -134,8 +135,8 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     }
 
     @Override
-    public void makeToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    public void makeUserLoginIsNullToast() {
+        Toast.makeText(getContext(), "User login is empty", Toast.LENGTH_SHORT).show();
     }
 
 }
