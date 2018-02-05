@@ -1,5 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
@@ -10,8 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -21,7 +20,7 @@ public class ChooseFragmentPresenterTest {
     @Mock
     ChoosePresenter presenter;
     @Mock
-    ChooseGitHubClient client;
+    GitHubClient client;
 
     ChooseFragmentView view;
 
@@ -38,39 +37,10 @@ public class ChooseFragmentPresenterTest {
         verify(presenter).onAttachView(view);
     }
 
-
-    @Test(expected = NullPointerException.class)
-    public void onUserChosen_NullPointerException() throws Exception {
-        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
-
-        doThrow(new NullPointerException()).when(presenter).onUserChosen("");
-        presenter.onUserChosen("");
-        doThrow(new NullPointerException()).when(presenter).onUserChosen(null);
-        presenter.onUserChosen(null);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void onSelectedRepo_NullPointerException() throws Exception {
-        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
-
-        doThrow(new NullPointerException()).when(presenter).onSelectedRepo(null, null);
-        presenter.onSelectedRepo(null, null);
-        doThrow(new NullPointerException()).when(presenter).onSelectedRepo(userName, null);
-        presenter.onSelectedRepo(userName, null);
-        doThrow(new NullPointerException()).when(presenter).onSelectedRepo(null, repoName);
-        presenter.onSelectedRepo(null, repoName);
-        doThrow(new NullPointerException()).when(presenter).onSelectedRepo("", repoName);
-        presenter.onSelectedRepo("", repoName);
-        doThrow(new NullPointerException()).when(presenter).onSelectedRepo(userName, "");
-        presenter.onSelectedRepo(userName, "");
-    }
-    
     @Test
-    public void onUserChoosen_clientTransaction() throws Exception{
+    public void onUserChoosen_clientTransaction() throws Exception {
         presenter.onUserChosen(userName);
         verify(presenter).onUserChosen(userName);
-        client.getReposForUser(presenter, userName);
-        verify(client).getReposForUser(presenter, userName);
     }
 
     @Test

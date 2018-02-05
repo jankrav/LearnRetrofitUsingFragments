@@ -1,5 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailRepoFragment;
 
@@ -11,19 +12,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DetailFragmentPresenterTest {
     @Mock
     DetailPresenter presenter;
     @Mock
-    DetailGitHubClient client;
+    GitHubClient client;
 
     DetailFragmentView view;
 
@@ -37,7 +34,7 @@ public class DetailFragmentPresenterTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         view = null;
     }
 
