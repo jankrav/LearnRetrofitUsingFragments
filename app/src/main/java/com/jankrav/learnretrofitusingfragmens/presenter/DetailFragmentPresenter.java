@@ -64,4 +64,9 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
     @Override public DetailFragmentView getView() {
         return view;
     }
+
+    @Override
+    public void setView(DetailFragmentView view) {
+        this.view = view;
+    }
 }
