@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
             // if activity lauch first time then create chooser
-            ChooseRepoFragment chooser = new ChooseRepoFragment();
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, chooser);
+            transaction.replace(R.id.fragment_container, ChooseRepoFragment.newInstance());
             transaction.commit();
         }
     }

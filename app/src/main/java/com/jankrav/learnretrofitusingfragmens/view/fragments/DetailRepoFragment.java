@@ -3,6 +3,7 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,10 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         // Required empty public constructor
     }
 
+    @NonNull
+    public static DetailRepoFragment newInstance(){
+        return new DetailRepoFragment();
+    }
     // only for testing
     @Override
     public void setPresenter(DetailPresenter presenter) {

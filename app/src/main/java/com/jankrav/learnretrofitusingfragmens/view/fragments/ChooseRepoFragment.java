@@ -2,6 +2,7 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
@@ -30,7 +30,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
-    private ChoosePresenter presenter = new ChooseFragmentPresenter();
+    private ChoosePresenter presenter;
 
     private TextView loginTextView;
     private ImageView avatarImageView;
@@ -38,6 +38,11 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
 
     public ChooseRepoFragment() {
         // Required empty public constructor
+    }
+
+    @NonNull
+    public static ChooseRepoFragment newInstance(){
+        return new ChooseRepoFragment();
     }
 
     // method for testing
