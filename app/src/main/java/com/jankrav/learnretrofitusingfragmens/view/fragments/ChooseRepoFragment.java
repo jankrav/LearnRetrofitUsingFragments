@@ -76,7 +76,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
 
     @Override
     public void onDestroyView() {
-        presenter.onDestroyView();
+        presenter.onDetachView();
         super.onDestroyView();
     }
 

@@ -4,12 +4,11 @@ import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 
 public interface DetailPresenter {
     //presenter events
-    void onDestroyView();
+    void onDetachView();
 
     //view events
     void onSelectedRepo(String repoOwnerLogin, String repoName);
 
     //for testing
     DetailFragmentView getView();
-    void setView(DetailFragmentView view);
 }

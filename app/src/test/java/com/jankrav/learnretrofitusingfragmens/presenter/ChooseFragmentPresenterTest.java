@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,14 +31,13 @@ public class ChooseFragmentPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ChooseFragmentPresenter(this, client);
-        view.setPresenter(presenter);
+        presenter = new ChooseFragmentPresenter(view, client);
     }
 
     @Test
     public void setPresenter_checkDoesViewIsNotNull(){
-        ChooseFragmentPresenter presenter = new ChooseFragmentPresenter(this, client);
-        ChooseRepoFragment view = ChooseRepoFragment.newInstance(presenter);
+        ChooseRepoFragment view = ChooseRepoFragment.newInstance();
+        ChooseFragmentPresenter presenter = new ChooseFragmentPresenter(view, client);
         assertNotNull(presenter.getView());
     }
 
@@ -49,54 +48,30 @@ public class ChooseFragmentPresenterTest {
 
     @Test
     public void onSelectedRepo_callCheckOutToOtherFragment() {
-        // this must work without setView
-        presenter.setView(view);
         presenter.onSelectedRepo("user", "repo");
         verify(view).checkoutToDetailFragment("user", "repo");
     }
 
     @Test
-    public void onAttachView_called() throws Exception {
-        ChooseRepoFragment view = new ChooseRepoFragment();
-        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
-        view.setPresenter(presenter);
-        verify(presenter).onAttachView(view);
-    }
-
-    @Test
-    public void onDetach_called() {
-        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
-        ChooseRepoFragment view = new ChooseRepoFragment();
-        view.setPresenter(presenter);
-        view.onDetach();
-        verify(presenter).onDetachView();
+    public void onDetachView_called() {
+        presenter.onDetachView();
+        assertNull(presenter.getView());
     }
 
     @Test
     public void onUserChosen_userLoginIsEmpty() {
-        presenter.setView(view);
         presenter.onUserChosen(null);
         verify(view).makeUserLoginIsNullToast();
     }
 
     @Test
     public void onUserChosen_calledGetReposForUser(){
-        presenter.setView(view);
         presenter.onUserChosen("User");
         verify(client).getReposForUser("User", presenter);
     }
 
     @Test
-    public void setPresenter_onAttachViewRespond() {
-        ChooseFragmentPresenter presenter = mock(ChooseFragmentPresenter.class);
-        ChooseRepoFragment view = new ChooseRepoFragment();
-        view.setPresenter(presenter);
-        verify(presenter).onAttachView(view);
-    }
-
-    @Test
     public void onResponse_called(){
-        presenter.setView(view);
         presenter.onResponse(new ArrayList<GitHubRepo>());
         verify(view).showInfo(new ArrayList<GitHubRepo>());
     }

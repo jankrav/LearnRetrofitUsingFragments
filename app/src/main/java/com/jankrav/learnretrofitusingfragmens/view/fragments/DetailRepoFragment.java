@@ -95,7 +95,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
     @Override
     public void onDestroyView() {
-        presenter.onDestroyView();
+        presenter.onDetachView();
         super.onDestroyView();
     }
 

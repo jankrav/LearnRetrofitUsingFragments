@@ -16,7 +16,7 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDetachView() {
         view = null;
     }
 
@@ -54,11 +54,6 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
     @Override
     public void onFailure(Throwable t) {
         view.makeFailureToast();
-    }
-
-    @Override
-    public void setView(ChooseFragmentView view) {
-        this.view = view;
     }
 
     @Override
