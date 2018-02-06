@@ -4,6 +4,7 @@ import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailRepoFragment;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,6 +69,11 @@ public class DetailFragmentPresenterTest {
     public void onFailure_calledFailureToast() {
         presenter.onFailure(new Throwable());
         verify(view).makeFailureToast();
+    }
+
+    @After
+    public void tearDown(){
+        presenter = null;
     }
 }
 
