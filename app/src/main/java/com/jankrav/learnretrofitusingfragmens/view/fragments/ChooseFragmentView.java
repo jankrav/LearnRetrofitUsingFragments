@@ -12,6 +12,7 @@ public interface ChooseFragmentView {
 
     void showInfo(List<GitHubRepo> repos);
 
+    //toast's
     void makeReposIsNullToast();
 
     void makeFailureToast();

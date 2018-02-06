@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
 
@@ -24,9 +23,8 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
     private TextView name, language, description, watchers, defaultBranch;
 
-    private DetailPresenter presenter = new DetailFragmentPresenter();
+    private DetailPresenter presenter;
 
-    // data about current user
     private String repoOwnerLogin;
     private String repoName;
 
@@ -35,10 +33,12 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
     @NonNull
-    public static DetailRepoFragment newInstance(){
-        return new DetailRepoFragment();
+    public static DetailRepoFragment newInstance(DetailPresenter presenter) {
+        DetailRepoFragment f = new DetailRepoFragment();
+        f.setPresenter(presenter);
+        return f;
     }
-    // only for testing
+
     @Override
     public void setPresenter(DetailPresenter presenter) {
         this.presenter = presenter;
@@ -59,12 +59,8 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_repo, container, false);
-
         initFields(view);
-
-        // fragment first lauch
         if (savedInstanceState == null) {
             repoOwnerLogin = getArguments().getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
             repoName = getArguments().getString(ChooseRepoFragment.REPO_NAME);
@@ -72,7 +68,6 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             repoOwnerLogin = savedInstanceState.getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
             repoName = savedInstanceState.getString(ChooseRepoFragment.REPO_NAME);
         }
-
         return view;
     }
 
@@ -113,11 +108,6 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 //    toast's
 
     @Override
-    public void makeRepoIsNullToast() {
-        Toast.makeText(getContext(), "Repo is null!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void makeToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
@@ -130,5 +120,10 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     @Override
     public void makeGoodToast() {
         Toast.makeText(getContext(), "Everything is okey! ;)", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeRepoIsNullToast() {
+        Toast.makeText(getContext(), "Repo is null!", Toast.LENGTH_SHORT).show();
     }
 }

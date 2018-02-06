@@ -10,34 +10,25 @@ import java.util.List;
 
 public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.OnChooserDataLoadedListener{
     private GitHubClient client = GitHubClient.newInstance();
-
     private ChooseFragmentView view;
 
     public ChooseFragmentPresenter() {
 
     }
 
+    // attach detach view to the presenter
+    @Override public void onAttachView(ChooseFragmentView view) {
+        this.view = view;
+    }
+
+    @Override public void onDetachView() {
+        view = null;
+    }
+
+    // view event's
     @Override
     public void onUserChosen(String user) {
         client.getReposForUser(user, this);
-    }
-
-    @Override
-    public void onResponse(List<GitHubRepo> repos) {
-        if (repos != null) {
-            view.showInfo(repos);
-            view.makeGoodToast();
-        } else view.makeReposIsNullToast();
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        view.makeFailureToast();
-    }
-
-    @Override
-    public void onError() {
-        view.makeUserLoginIsNullToast();
     }
 
     @Override
@@ -47,14 +38,20 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
         else view.makeUserInfoFailureToast();
     }
 
-    @Override
-    public void onAttachView(ChooseFragmentView view) {
-        this.view = view;
+    // model event's
+    @Override public void onResponse(List<GitHubRepo> repos) {
+        if (repos != null) {
+            view.showInfo(repos);
+            view.makeGoodToast();
+        } else view.makeReposIsNullToast();
     }
 
-    @Override
-    public void onDetachView() {
-        view = null;
+    @Override public void onFailure(Throwable t) {
+        view.makeFailureToast();
+    }
+
+    @Override public void onError() {
+        view.makeUserLoginIsNullToast();
     }
 
     //For testing
