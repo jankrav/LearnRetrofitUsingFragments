@@ -15,11 +15,13 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
     }
 
     @Override
-    public void onSelectedRepo(String repoOwnerLogin, String repoName){
-        if((repoOwnerLogin != null && !repoOwnerLogin.equals("")) &&
-                (repoName != null && !repoName.equals("")))
+    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
+        if ((repoOwnerLogin != null && !repoOwnerLogin.equals("")) &&
+                (repoName != null && !repoName.equals(""))) {
             client.getRepoInfo(repoOwnerLogin, repoName, this);
-        else view.makeUserInfoFailureToast();
+        } else {
+            view.makeUserInfoFailureToast();
+        }
     }
 
     @Override
@@ -27,7 +29,9 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
         if (repo != null) {
             view.showInfo(repoInfoValidation(repo));
             view.makeGoodToast();
-        } else view.makeRepoIsNullToast();
+        } else {
+            view.makeRepoIsNullToast();
+        }
     }
 
     @Override
@@ -36,11 +40,15 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
     }
 
     private GitHubRepo repoInfoValidation(GitHubRepo repo) {
-        if (TextUtils.isEmpty(repo.getName())) repo.setName("no-name-repository");
-        if (TextUtils.isEmpty(repo.getLanguage())) repo.setLanguage("language is not specified ..");
-        if (TextUtils.isEmpty(repo.getDescription()))
+        if (TextUtils.isEmpty(repo.getName())) {
+            repo.setName("no-name-repository");
+        }
+        if (TextUtils.isEmpty(repo.getLanguage())) {
+            repo.setLanguage("language is not specified ..");
+        }
+        if (TextUtils.isEmpty(repo.getDescription())) {
             repo.setDescription("description is not specified");
-
+        }
         return repo;
     }
 
@@ -55,12 +63,14 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
         view = null;
     }
 
-//    for testing
-    @Override public DetailFragmentView getView() {
+    //    for testing
+    @Override
+    public DetailFragmentView getView() {
         return view;
     }
 
-    @Override public void setView(DetailFragmentView view) {
+    @Override
+    public void setView(DetailFragmentView view) {
         this.view = view;
     }
 }

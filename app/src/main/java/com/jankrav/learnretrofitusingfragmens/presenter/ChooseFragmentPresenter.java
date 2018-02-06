@@ -6,7 +6,7 @@ import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
 import java.util.List;
 
-public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.OnChooserDataLoadedListener{
+public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.OnChooserDataLoadedListener {
     private GitHubClient client;
     private ChooseFragmentView view;
 
@@ -15,47 +15,59 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
     }
 
     // attach detach view to the presenter
-    @Override public void onAttachView(ChooseFragmentView view) {
+    @Override
+    public void onAttachView(ChooseFragmentView view) {
         this.view = view;
     }
 
-    @Override public void onDetachView() {
+    @Override
+    public void onDetachView() {
         view = null;
     }
 
     // view event's
     @Override
     public void onUserChosen(String user) {
-        if(user != null && !user.equals(""))
+        if (user != null && !user.equals("")) {
             client.getReposForUser(user, this);
-        else view.makeUserLoginIsNullToast();
+        } else {
+            view.makeUserLoginIsNullToast();
+        }
     }
 
     @Override
     public void onSelectedRepo(String repoOwnerLogin, String repoName) {
         if ((repoOwnerLogin != null && !repoOwnerLogin.equals("")) &&
-                (repoName != null && !repoName.equals("")))
+                (repoName != null && !repoName.equals(""))) {
             view.checkoutToDetailFragment(repoOwnerLogin, repoName);
-        else view.makeUserInfoFailureToast();
+        } else {
+            view.makeUserInfoFailureToast();
+        }
     }
 
     // model event's
-    @Override public void onResponse(List<GitHubRepo> repos) {
+    @Override
+    public void onResponse(List<GitHubRepo> repos) {
         if (repos != null) {
             view.showInfo(repos);
             view.makeGoodToast();
-        } else view.makeReposIsNullToast();
+        } else {
+            view.makeReposIsNullToast();
+        }
     }
 
-    @Override public void onFailure(Throwable t) {
+    @Override
+    public void onFailure(Throwable t) {
         view.makeFailureToast();
     }
 
-    @Override public void setView(ChooseFragmentView view) {
+    @Override
+    public void setView(ChooseFragmentView view) {
         this.view = view;
     }
 
-    @Override public ChooseFragmentView getView() {
+    @Override
+    public ChooseFragmentView getView() {
         return view;
     }
 }

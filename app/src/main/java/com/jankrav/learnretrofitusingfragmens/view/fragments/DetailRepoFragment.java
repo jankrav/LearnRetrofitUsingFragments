@@ -52,8 +52,9 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
             description = view.findViewById(R.id.description);
             watchers = view.findViewById(R.id.watchers);
             defaultBranch = view.findViewById(R.id.defaultBranch);
-        } else
+        } else {
             Toast.makeText(getContext(), "Error. Can't find resource. Restart app!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -105,8 +106,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         presenter.onDetachView();
     }
 
-//    toast's
-
+    // toast's
     @Override
     public void makeFailureToast() {
         Toast.makeText(getContext(), "The network is failure!", Toast.LENGTH_SHORT).show();

@@ -32,7 +32,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
     private ChoosePresenter presenter;
-    private Context currentContext;
+
 
     private TextView loginTextView;
     private ImageView avatarImageView;
@@ -43,10 +43,14 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     }
 
     private void initFields(View view) {
-        loginTextView = view.findViewById(R.id.loginTextView);
-        avatarImageView = view.findViewById(R.id.avatarImageView);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(view != null) {
+            loginTextView = view.findViewById(R.id.loginTextView);
+            avatarImageView = view.findViewById(R.id.avatarImageView);
+            recyclerView = view.findViewById(R.id.recyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        } else {
+            Toast.makeText(getContext(), "Can't find resource's. Please restart app!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -88,7 +92,6 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         presenter.onDetachView();
     }
 
-
     @Override
     public void checkoutToDetailFragment(String repoOwnerLogin, String repoName) {
         Bundle bundle = new Bundle();
@@ -112,8 +115,6 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         loginTextView.setText(repos.get(0).getOwner().getLogin());
         Picasso.with(getContext()).load(repos.get(0).getOwner().getAvatarUrl())
                 .into(avatarImageView);
-
-        // list of the repos
         recyclerView.setAdapter(new GitHubRepoAdapter(repos, presenter));
     }
 
