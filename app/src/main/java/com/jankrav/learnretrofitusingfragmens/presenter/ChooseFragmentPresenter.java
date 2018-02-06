@@ -10,18 +10,13 @@ public class ChooseFragmentPresenter implements ChoosePresenter, GitHubClient.On
     private GitHubClient client;
     private ChooseFragmentView view;
 
-    public ChooseFragmentPresenter(GitHubClient client) {
+    public ChooseFragmentPresenter(ChooseFragmentView view, GitHubClient client) {
+        this.view = view;
         this.client = client;
     }
 
-    // attach detach view to the presenter
     @Override
-    public void onAttachView(ChooseFragmentView view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetachView() {
+    public void onDestroyView() {
         view = null;
     }
 

@@ -1,7 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +12,8 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
+import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
 
@@ -33,17 +34,12 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
     @NonNull
-    public static DetailRepoFragment newInstance(DetailPresenter presenter) {
+    public static DetailRepoFragment newInstance() {
         DetailRepoFragment f = new DetailRepoFragment();
-        f.setPresenter(presenter);
         return f;
     }
 
-    @Override
-    public void setPresenter(DetailPresenter presenter) {
-        this.presenter = presenter;
-        presenter.onAttachView(this);
-    }
+
 
     private void initFields(View view) {
         if (view != null) {
@@ -62,6 +58,9 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_repo, container, false);
         initFields(view);
+
+        presenter = new DetailFragmentPresenter(this, GitHubClient.newInstance());
+
         if (savedInstanceState == null) {
             repoOwnerLogin = getArguments().getString(ChooseRepoFragment.REPO_OWNER_LOGIN);
             repoName = getArguments().getString(ChooseRepoFragment.REPO_NAME);
@@ -82,12 +81,6 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        presenter.onAttachView(this);
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         presenter.onSelectedRepo(repoOwnerLogin, repoName);
@@ -101,9 +94,9 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        presenter.onDetachView();
+    public void onDestroyView() {
+        presenter.onDestroyView();
+        super.onDestroyView();
     }
 
     // toast's

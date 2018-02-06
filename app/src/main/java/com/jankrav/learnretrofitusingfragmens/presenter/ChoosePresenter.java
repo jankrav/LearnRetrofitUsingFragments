@@ -5,8 +5,7 @@ import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
 public interface ChoosePresenter {
     //presenter events
-    void onAttachView(ChooseFragmentView view);
-    void onDetachView();
+    void onDestroyView();
 
     //view listeners methods
     void onSelectedRepo(String repoOwnerLogin, String repoName);

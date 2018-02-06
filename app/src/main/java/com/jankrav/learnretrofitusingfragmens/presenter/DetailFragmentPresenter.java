@@ -10,7 +10,8 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
     private GitHubClient client;
     private DetailFragmentView view;
 
-    public DetailFragmentPresenter(GitHubClient client) {
+    public DetailFragmentPresenter(DetailFragmentView view, GitHubClient client) {
+        this.view = view;
         this.client = client;
     }
 
@@ -52,14 +53,8 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
         return repo;
     }
 
-
     @Override
-    public void onAttachView(DetailFragmentView view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetachView() {
+    public void onDestroyView() {
         view = null;
     }
 

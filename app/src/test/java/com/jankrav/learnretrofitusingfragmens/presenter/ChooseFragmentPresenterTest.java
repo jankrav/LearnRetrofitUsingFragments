@@ -31,13 +31,13 @@ public class ChooseFragmentPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ChooseFragmentPresenter(client);
+        presenter = new ChooseFragmentPresenter(this, client);
         view.setPresenter(presenter);
     }
 
     @Test
     public void setPresenter_checkDoesViewIsNotNull(){
-        ChooseFragmentPresenter presenter = new ChooseFragmentPresenter(client);
+        ChooseFragmentPresenter presenter = new ChooseFragmentPresenter(this, client);
         ChooseRepoFragment view = ChooseRepoFragment.newInstance(presenter);
         assertNotNull(presenter.getView());
     }

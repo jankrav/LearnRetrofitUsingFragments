@@ -30,13 +30,13 @@ public class DetailFragmentPresenterTest {
     }
     @Test public void onSelectedRepo_calledGetRepoInfo(){
         GitHubClient client = mock(GitHubClient.class);
-        DetailFragmentPresenter presenter = new DetailFragmentPresenter(client);
+        DetailFragmentPresenter presenter = new DetailFragmentPresenter(this, client);
         presenter.onSelectedRepo("User", "Repo");
         verify(client).getRepoInfo("User", "Repo", presenter);
     }
     @Test public void onSelectedRepo_calledUserInfoFailureToast(){
         GitHubClient client = mock(GitHubClient.class);
-        DetailFragmentPresenter presenter = new DetailFragmentPresenter(client);
+        DetailFragmentPresenter presenter = new DetailFragmentPresenter(this, client);
         DetailRepoFragment view = mock(DetailRepoFragment.class);
         presenter.setView(view);
         presenter.onSelectedRepo(null, null);
@@ -45,7 +45,7 @@ public class DetailFragmentPresenterTest {
     @Test public void onResponse_calledGoodToast(){
         DetailRepoFragment view = mock(DetailRepoFragment.class);
         GitHubClient client = mock(GitHubClient.class);
-        DetailFragmentPresenter presenter = new DetailFragmentPresenter(client);
+        DetailFragmentPresenter presenter = new DetailFragmentPresenter(this, client);
 
         presenter.setView(view);
 
@@ -58,7 +58,7 @@ public class DetailFragmentPresenterTest {
     @Test public void onResponse_calledRepoIsNullToast(){
         DetailRepoFragment view = mock(DetailRepoFragment.class);
         GitHubClient client = mock(GitHubClient.class);
-        DetailFragmentPresenter presenter = new DetailFragmentPresenter(client);
+        DetailFragmentPresenter presenter = new DetailFragmentPresenter(this, client);
 
         presenter.setView(view);
         presenter.onResponse(null);
@@ -67,7 +67,7 @@ public class DetailFragmentPresenterTest {
     @Test public void onFailure_calledFailureToast(){
         DetailRepoFragment view = mock(DetailRepoFragment.class);
         GitHubClient client = mock(GitHubClient.class);
-        DetailFragmentPresenter presenter = new DetailFragmentPresenter(client);
+        DetailFragmentPresenter presenter = new DetailFragmentPresenter(this, client);
 
         presenter.setView(view);
 

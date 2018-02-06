@@ -1,6 +1,5 @@
 package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,8 +15,8 @@ import android.widget.Toast;
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
+import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
-import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -53,16 +52,9 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         }
     }
 
-    @Override
-    public void setPresenter(ChoosePresenter presenter) {
-        this.presenter = presenter;
-        presenter.onAttachView(this);
-    }
-
     @NonNull
-    public static ChooseRepoFragment newInstance(ChoosePresenter presenter) {
+    public static ChooseRepoFragment newInstance() {
         ChooseRepoFragment f = new ChooseRepoFragment();
-        f.setPresenter(presenter);
         return f;
     }
 
@@ -71,6 +63,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
         initFields(view);
+        presenter = new ChooseFragmentPresenter(this, GitHubClient.newInstance());
         return view;
     }
 
@@ -80,16 +73,11 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         presenter.onUserChosen("jankrav");
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        presenter.onAttachView(this);
-    }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        presenter.onDetachView();
+    public void onDestroyView() {
+        presenter.onDestroyView();
+        super.onDestroyView();
     }
 
     @Override
@@ -99,9 +87,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         bundle.putString(REPO_NAME, repoName);
 
         DetailRepoFragment detail =
-                DetailRepoFragment.newInstance(
-                        new DetailFragmentPresenter(
-                                GitHubClient.newInstance()));
+                DetailRepoFragment.newInstance();
 
         detail.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction()
