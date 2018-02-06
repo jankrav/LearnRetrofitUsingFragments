@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
@@ -31,6 +32,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
     private ChoosePresenter presenter;
+    private Context currentContext;
 
     private TextView loginTextView;
     private ImageView avatarImageView;
@@ -93,9 +95,12 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         bundle.putString(REPO_OWNER_LOGIN, repoOwnerLogin);
         bundle.putString(REPO_NAME, repoName);
 
-        DetailRepoFragment detail = DetailRepoFragment.newInstance(new DetailFragmentPresenter());
-        detail.setArguments(bundle);
+        DetailRepoFragment detail =
+                DetailRepoFragment.newInstance(
+                        new DetailFragmentPresenter(
+                                GitHubClient.newInstance()));
 
+        detail.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, detail)
                 .addToBackStack(null)

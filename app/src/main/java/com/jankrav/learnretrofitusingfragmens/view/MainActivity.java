@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
@@ -22,9 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
             // if activity lauch first time then create chooser
-
+            ChooseRepoFragment chooser = ChooseRepoFragment.newInstance(
+                    new ChooseFragmentPresenter(GitHubClient.newInstance())
+            );
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, ChooseRepoFragment.newInstance(new ChooseFragmentPresenter()));
+            transaction.replace(R.id.fragment_container, chooser);
             transaction.commit();
         }
     }

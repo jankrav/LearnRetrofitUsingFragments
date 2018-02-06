@@ -108,11 +108,6 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 //    toast's
 
     @Override
-    public void makeToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void makeFailureToast() {
         Toast.makeText(getContext(), "The network is failure!", Toast.LENGTH_SHORT).show();
     }
@@ -125,5 +120,10 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     @Override
     public void makeRepoIsNullToast() {
         Toast.makeText(getContext(), "Repo is null!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void makeUserInfoFailureToast() {
+        Toast.makeText(getContext(), "User login or repository name is empty.", Toast.LENGTH_SHORT).show();
     }
 }

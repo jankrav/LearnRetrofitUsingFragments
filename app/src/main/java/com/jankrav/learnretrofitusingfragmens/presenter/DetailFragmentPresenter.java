@@ -7,15 +7,19 @@ import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 
 public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.OnDetailDataLoadedListener {
-    private GitHubClient client = GitHubClient.newInstance();
+    private GitHubClient client;
     private DetailFragmentView view;
 
-    public DetailFragmentPresenter() {
+    public DetailFragmentPresenter(GitHubClient client) {
+        this.client = client;
     }
 
     @Override
-    public void onSelectedRepo(String repoOwnerLogin, String repoName) {
-        client.getRepoInfo(repoOwnerLogin, repoName, this);
+    public void onSelectedRepo(String repoOwnerLogin, String repoName){
+        if((repoOwnerLogin != null && !repoOwnerLogin.equals("")) &&
+                (repoName != null && !repoName.equals("")))
+            client.getRepoInfo(repoOwnerLogin, repoName, this);
+        else view.makeUserInfoFailureToast();
     }
 
     @Override
@@ -29,11 +33,6 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
     @Override
     public void onFailure(Throwable t) {
         view.makeFailureToast();
-    }
-
-    @Override
-    public void onError() {
-        view.makeToast("User login or repository name is empty.");
     }
 
     private GitHubRepo repoInfoValidation(GitHubRepo repo) {
@@ -56,17 +55,12 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
         view = null;
     }
 
-    //    for testing
-    @Override public void setClient(GitHubClient client) {
-        this.client = client;
-    }
-
+//    for testing
     @Override public DetailFragmentView getView() {
         return view;
     }
 
-    @Override
-    public void setView(DetailFragmentView view) {
+    @Override public void setView(DetailFragmentView view) {
         this.view = view;
     }
 }

@@ -1,9 +1,6 @@
 package com.jankrav.learnretrofitusingfragmens.model.client;
 
 
-import android.os.Bundle;
-import android.text.TextUtils;
-
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 
 import java.util.List;
@@ -23,7 +20,6 @@ public class GitHubClient {
         return client;
     }
     public void getReposForUser(String userLogin, final OnChooserDataLoadedListener listener) {
-        if (userLogin != null && !userLogin.equals(""))
             service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
 
                 @Override
@@ -36,11 +32,9 @@ public class GitHubClient {
                     listener.onFailure(t);
                 }
             });
-        else listener.onError();
     }
 
     public void getRepoInfo(String repoOwnerLogin, String repoName, final OnDetailDataLoadedListener listener) {
-        if(!TextUtils.isEmpty(repoOwnerLogin) && !TextUtils.isEmpty(repoName))
         service.repoForUser(repoOwnerLogin, repoName).enqueue(new Callback<GitHubRepo>() {
             // if server response than ...
             @Override
@@ -55,22 +49,17 @@ public class GitHubClient {
                 listener.onFailure(t);
             }
         });
-        else listener.onError();
     }
 
     public interface OnChooserDataLoadedListener {
         void onResponse(List<GitHubRepo> repos);
 
         void onFailure(Throwable t);
-
-        void onError();
     }
 
     public interface OnDetailDataLoadedListener {
         void onResponse(GitHubRepo repo);
 
         void onFailure(Throwable t);
-
-        void onError();
     }
 }

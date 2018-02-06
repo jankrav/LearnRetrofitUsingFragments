@@ -14,5 +14,5 @@ public interface DetailFragmentView {
 
     void makeRepoIsNullToast();
 
-    void makeToast(String message);
+    void makeUserInfoFailureToast();
 }
