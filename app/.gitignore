@@ -21,17 +21,17 @@ local.properties
 *.iml
 *.ipr
 *.iws
-*idea/**
+.idea/**
 classes/**
 target/**
 
 # Mac OS
 .DS_Store
 
-# Grandle
-grandle-app.setting
+# Gradle
+gradle-app.setting
 .gradletasknamecache
-.grandle/**
+.gradle/**
 build/**
 
 # Proguard
@@ -40,10 +40,6 @@ proguard/**
 # Trash
 trash/**
 
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-/build
+# Other
 /captures
 .externalNativeBuild
