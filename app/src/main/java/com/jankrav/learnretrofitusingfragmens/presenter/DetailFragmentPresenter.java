@@ -6,7 +6,7 @@ import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 
-public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.OnDetailDataLoadedListener {
+public class DetailFragmentPresenter {
     private GitHubClient client;
     private DetailFragmentView view;
 
@@ -15,29 +15,32 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
         this.client = client;
     }
 
-    @Override
+    public DetailFragmentView getView() {
+        return view;
+    }
+
     public void onSelectedRepo(String repoOwnerLogin, String repoName) {
         if ((repoOwnerLogin != null && !repoOwnerLogin.equals("")) &&
                 (repoName != null && !repoName.equals(""))) {
-            client.getRepoInfo(repoOwnerLogin, repoName, this);
+            client.getRepoInfo(repoOwnerLogin, repoName, new GitHubClient.OnDetailDataLoadedListener() {
+                @Override
+                public void onSuccess(GitHubRepo repo) {
+                    DetailFragmentPresenter.this.onGetInfoFromServer(repo);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    DetailFragmentPresenter.this.view.makeFailureToast();
+                }
+            });
         } else {
             view.makeUserInfoFailureToast();
         }
     }
 
-    @Override
-    public void onResponse(GitHubRepo repo) {
-        if (repo != null) {
-            view.showInfo(repoInfoValidation(repo));
-            view.makeGoodToast();
-        } else {
-            view.makeRepoIsNullToast();
-        }
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        view.makeFailureToast();
+    void onGetInfoFromServer(GitHubRepo repo){
+        view.showInfo(repoInfoValidation(repo));
+        view.makeGoodToast();
     }
 
     private GitHubRepo repoInfoValidation(GitHubRepo repo) {
@@ -53,14 +56,7 @@ public class DetailFragmentPresenter implements DetailPresenter, GitHubClient.On
         return repo;
     }
 
-    @Override
     public void onDetachView() {
         view = null;
-    }
-
-    //    for testing
-    @Override
-    public DetailFragmentView getView() {
-        return view;
     }
 }

@@ -24,7 +24,7 @@ public class GitHubClient {
 
                 @Override
                 public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
-                    listener.onResponse(response.body());
+                    listener.onSuccess(response.body());
                 }
 
                 @Override
@@ -40,7 +40,7 @@ public class GitHubClient {
             @Override
             public void onResponse(Call<GitHubRepo> call, Response<GitHubRepo> response) {
                 // response.body - return repo info  by owner login and repo name;
-                listener.onResponse(response.body());
+                listener.onSuccess(response.body());
             }
 
             // if smth goes wrong than ...
@@ -52,14 +52,12 @@ public class GitHubClient {
     }
 
     public interface OnChooserDataLoadedListener {
-        void onResponse(List<GitHubRepo> repos);
-
+        void onSuccess(List<GitHubRepo> repos);
         void onFailure(Throwable t);
     }
 
     public interface OnDetailDataLoadedListener {
-        void onResponse(GitHubRepo repo);
-
+        void onSuccess(GitHubRepo repo);
         void onFailure(Throwable t);
     }
 }

@@ -16,7 +16,6 @@ import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
-import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +29,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
-    private ChoosePresenter presenter;
+    private ChooseFragmentPresenter presenter;
 
 
     private TextView loginTextView;
@@ -42,7 +41,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     }
 
     private void initFields(View view) {
-        if(view != null) {
+        if (view != null) {
             loginTextView = view.findViewById(R.id.loginTextView);
             avatarImageView = view.findViewById(R.id.avatarImageView);
             recyclerView = view.findViewById(R.id.recyclerView);
@@ -70,7 +69,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     @Override
     public void onStart() {
         super.onStart();
-        presenter.onUserChosen("jankrav");
+        presenter.onSearchUser("jankrav");
     }
 
 

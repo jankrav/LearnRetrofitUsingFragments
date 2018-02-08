@@ -14,7 +14,6 @@ import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
-import com.jankrav.learnretrofitusingfragmens.presenter.DetailPresenter;
 
 
 /**
@@ -24,7 +23,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
     private TextView name, language, description, watchers, defaultBranch;
 
-    private DetailPresenter presenter;
+    private DetailFragmentPresenter presenter;
 
     private String repoOwnerLogin;
     private String repoName;

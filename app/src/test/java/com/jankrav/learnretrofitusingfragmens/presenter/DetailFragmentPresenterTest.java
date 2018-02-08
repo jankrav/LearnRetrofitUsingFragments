@@ -8,13 +8,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,6 +28,8 @@ public class DetailFragmentPresenterTest {
     GitHubClient client;
     @Mock
     DetailRepoFragment view;
+    @Captor
+    ArgumentCaptor<GitHubRepo> captor;
 
     DetailFragmentPresenter presenter;
 
@@ -30,6 +37,23 @@ public class DetailFragmentPresenterTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         presenter = new DetailFragmentPresenter(view, client);
+    }
+
+    @Test
+    public void someTest() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                final GitHubClient.OnDetailDataLoadedListener listener = invocation.getArgument(2);
+                listener.onSuccess(new GitHubRepo());
+                verify(listener).onSuccess(captor.capture());
+
+                return null;
+            }
+        }).when(client).getRepoInfo(anyString(),anyString(), any(GitHubClient.OnDetailDataLoadedListener .class));
+        presenter.onGetInfoFromServer(captor.getValue());
+        verify(view).showInfo(captor.getValue());
+
     }
 
     @Test
@@ -41,7 +65,7 @@ public class DetailFragmentPresenterTest {
     @Test
     public void onSelectedRepo_calledGetRepoInfo() {
         presenter.onSelectedRepo("User", "Repo");
-        verify(client).getRepoInfo("User", "Repo", presenter);
+        verify(client).getRepoInfo(anyString(), anyString(), any(GitHubClient.OnDetailDataLoadedListener.class));
     }
 
     @Test
@@ -52,23 +76,17 @@ public class DetailFragmentPresenterTest {
 
     @Test
     public void onResponse_calledGoodToast() {
-        GitHubRepo repo = new GitHubRepo();
-        presenter.onResponse(repo);
-        InOrder inOrder = Mockito.inOrder(view);
-        inOrder.verify(view).showInfo(repo);
-        inOrder.verify(view).makeGoodToast();
+
     }
 
     @Test
     public void onResponse_calledRepoIsNullToast() {
-        presenter.onResponse(null);
-        verify(view).makeRepoIsNullToast();
+
     }
 
     @Test
     public void onFailure_calledFailureToast() {
-        presenter.onFailure(new Throwable());
-        verify(view).makeFailureToast();
+
     }
 
     @After

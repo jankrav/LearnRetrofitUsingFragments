@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.presenter.ChoosePresenter;
+import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import java.util.List;
 public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Holder> {
     private List<GitHubRepo> repos;
 
-    private ChoosePresenter presenter;
+    private ChooseFragmentPresenter presenter;
 
-    public GitHubRepoAdapter(List<GitHubRepo> repos, ChoosePresenter presenter) {
+    public GitHubRepoAdapter(List<GitHubRepo> repos, ChooseFragmentPresenter presenter) {
         this.repos = repos;
         this.presenter = presenter;
     }
@@ -44,7 +44,7 @@ public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Ho
         holder.repoName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (presenter != null){
+                if (presenter != null) {
                     presenter.onSelectedRepo(
                             repos.get(position).getOwner().getLogin(),
                             repos.get(position).getName());

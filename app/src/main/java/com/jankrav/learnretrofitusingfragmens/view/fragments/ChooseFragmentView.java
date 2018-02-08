@@ -5,8 +5,6 @@ import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import java.util.List;
 
 public interface ChooseFragmentView {
-//    void setPresenter(ChoosePresenter presenter);
-
     void checkoutToDetailFragment(String repoOwnerLogin, String repoName);
 
     void showInfo(List<GitHubRepo> repos);
