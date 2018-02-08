@@ -52,9 +52,9 @@ public class ChooseFragmentPresenterTest {
         MockitoAnnotations.initMocks(this);
         presenter = new ChooseFragmentPresenter(view, client);
     }
-
+//    async task invoke onSuccess
     @Test
-    public void testOnSearchUser_getResponseFromServerUsingAnswer() throws Throwable {
+    public void testOnSearchUser_getResponseFromServerUsingAnswer()throws Throwable {
         final List<GitHubRepo> results = new ArrayList<>();
         Answer answer = new Answer() {
             @Override
@@ -72,9 +72,8 @@ public class ChooseFragmentPresenterTest {
         verify(view).showInfo(reposCaptor.capture());
         assertThat(results, is(equalTo(reposCaptor.getValue())));
     }
-
     @Test
-    public void testOnSearchUser_getResponseFromServerUsingCaptor() throws Throwable {
+    public void testOnSearchUser_getResponseFromServerUsingCaptor()throws Throwable {
         final List<GitHubRepo> results = new ArrayList<>();
 
         presenter.onSearchUser(login);
@@ -84,8 +83,9 @@ public class ChooseFragmentPresenterTest {
         assertThat(reposCaptor.getValue(), is(equalTo(results)));
     }
 
+//  async task invoke onFailure()
     @Test
-    public void testOnSearchUser_getFailureFromServerUsingAnswer() throws Throwable {
+    public void testOnSearchUser_getFailureFromServerUsingAnswer()throws Throwable {
         final Throwable result = new Throwable();
         doAnswer(new Answer() {
             @Override
@@ -99,14 +99,37 @@ public class ChooseFragmentPresenterTest {
         verify(client).getReposForUser(anyString(), any(GitHubClient.OnChooserDataLoadedListener.class));
         verify(view).makeFailureToast();
     }
-
     @Test
-    public void testOnSearchUser_getFailureFromServerUsingCaptor() throws Throwable {
+    public void testOnSearchUser_getFailureFromServerUsingCaptor()throws Throwable {
         final Throwable result = new Throwable();
         presenter.onSearchUser(login);
         verify(client).getReposForUser(anyString(), interfaceCaptor.capture());
         interfaceCaptor.getValue().onFailure(result);
         verify(view).makeFailureToast();
+    }
+
+//  async task invoke onSuccess() with null object
+    @Test
+    public void testOnSearchUser_getResponseNullRepoFromServerUsingAnswer() throws Throwable{
+        final List<GitHubRepo> result = null;
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                final GitHubClient.OnChooserDataLoadedListener listener = invocation.getArgument(1);
+                listener.onSuccess(result);
+                return null;
+            }
+        }).when(client).getReposForUser(anyString(),any(GitHubClient.OnChooserDataLoadedListener.class));
+        presenter.onSearchUser(login);
+        verify(view).makeReposIsNullToast();
+    }
+    @Test
+    public void testOnSearchUser_getResponseNullRepoFromServerUsingCaptor() throws Throwable {
+        final List<GitHubRepo> result = null;
+        presenter.onSearchUser(login);
+        verify(client, times(1)).getReposForUser(anyString(), interfaceCaptor.capture());
+        interfaceCaptor.getValue().onSuccess(result);
+        verify(view).makeReposIsNullToast();
     }
 
     @Test

@@ -16,7 +16,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNull;
@@ -51,6 +50,7 @@ public class DetailFragmentPresenterTest {
         presenter = new DetailFragmentPresenter(view, client);
     }
 
+    // async task invoke
     @Test
     public void testOnSelectedRepo_getResponseFromServerUsingAnswer() throws Throwable {
         final GitHubRepo result = new GitHubRepo();
@@ -79,6 +79,7 @@ public class DetailFragmentPresenterTest {
         assertThat(repoCaptor.getValue(), is(equalTo(result)));
     }
 
+    // async task invoke onFailure
     @Test
     public void testOnSelectedRepo_getFailureFromServerUsingAnswer() throws Throwable{
         final Throwable result = new Throwable();
@@ -94,7 +95,6 @@ public class DetailFragmentPresenterTest {
         verify(client, times(1)).getRepoInfo(anyString(), anyString(),any(GitHubClient.OnDetailDataLoadedListener.class));
         verify(view).makeFailureToast();
     }
-
     @Test
     public void testOnSelectedRepo_getFailureFromServerUsingCaptor() throws Throwable{
         final Throwable result = new Throwable();
@@ -103,6 +103,33 @@ public class DetailFragmentPresenterTest {
         interfaceCaptor.getValue().onFailure(result);
         verify(view).makeFailureToast();
     }
+
+    // onSuccess return null repo
+    @Test
+    public void testOnSelectedRepo_getResponseNullRepoFromServerUsingAnswer() throws Throwable{
+        final GitHubRepo result = null;
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                final GitHubClient.OnDetailDataLoadedListener listener = invocation.getArgument(2);
+                listener.onSuccess(result);
+                return null;
+            }
+        }).when(client).getRepoInfo(anyString(), anyString(), any(GitHubClient.OnDetailDataLoadedListener.class));
+        presenter.onSelectedRepo(login, repoName);
+        verify(client, times(1)).getRepoInfo(anyString(), anyString(), any(GitHubClient.OnDetailDataLoadedListener.class));
+        verify(view).makeRepoIsNullToast();
+    }
+
+    @Test
+    public void testOnSelectedRepo_getResponseNullRepoFromServerUsingCaptor() throws Throwable {
+        final GitHubRepo result = null;
+        presenter.onSelectedRepo(login, repoName);
+        verify(client, times(1)).getRepoInfo(anyString(), anyString(), interfaceCaptor.capture());
+        interfaceCaptor.getValue().onSuccess(result);
+        verify(view, times(1)).makeRepoIsNullToast();
+    }
+
     @Test
     public void onDetachView_called() throws Exception {
         presenter.onDetachView();
