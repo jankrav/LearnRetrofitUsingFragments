@@ -19,8 +19,11 @@ import org.mockito.stubbing.Answer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
@@ -35,14 +38,17 @@ public class ChooseFragmentPresenterTest {
     @Mock
     GitHubClient client;
 
-    @Mock
-    GitHubClient.OnChooserDataLoadedListener listener;
-
     @Captor
-    ArgumentCaptor<List<GitHubRepo>> captor;
+    ArgumentCaptor<GitHubClient.OnChooserDataLoadedListener> interfaceCaptor;
+    @Captor
+    ArgumentCaptor<List<GitHubRepo>> reposCaptor;
 
     ChooseFragmentPresenter presenter;
 
+    /*
+    * TODO: Mock response from server
+    *
+    * */
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -50,24 +56,39 @@ public class ChooseFragmentPresenterTest {
     }
 
 
-
     @Test
-    public void onUserChosen_getResponseFromServer() throws Throwable {
+    public void testOnUserChosen_getResponseFromServerUsingAnswer() throws Throwable {
+        final List<GitHubRepo> results = new ArrayList<>();
+
         Answer answer = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 final GitHubClient.OnChooserDataLoadedListener listener = invocation.getArgument(1);
-                listener.onSuccess(new ArrayList<GitHubRepo>());
-                verify(listener, times(1)).onSuccess(captor.capture());
-                presenter.onUserChosen(captor.getValue());
-                verify(view).showInfo(captor.getValue());
+                listener.onSuccess(results);
+//                verify(listener).onSuccess(interfaceCaptor.capture());
                 return null;
             }
         };
+
         doAnswer(answer).when(client).getReposForUser(anyString(), any(GitHubClient.OnChooserDataLoadedListener.class));
-        presenter.onUserChosen(captor.getValue());
-        verify(view).showInfo(captor.getValue());
+        presenter.onSearchUser("User");
+        verify(client, times(1))
+                .getReposForUser(anyString(),
+                        any(GitHubClient.OnChooserDataLoadedListener.class));
+        verify(view).showInfo(reposCaptor.capture());
+        assertThat(results, is(equalTo(reposCaptor.getValue())));
     }
+
+    @Test
+    public void testOnUserChosen_getResponseFromServerUsingCaptor() throws Throwable {
+        presenter.onSearchUser("User");
+        final List<GitHubRepo> results = new ArrayList<>();
+        verify(client).getReposForUser(anyString(), interfaceCaptor.capture());
+        interfaceCaptor.getValue().onSuccess(results);
+        verify(view).showInfo(reposCaptor.capture());
+        assertThat(reposCaptor.getValue(), is(equalTo(results)));
+    }
+
 
     @Test
     public void createPresenterObject_checkDoesViewIsNotNull() {
@@ -78,7 +99,7 @@ public class ChooseFragmentPresenterTest {
 
     @Test
     public void onChosenUser_getReposForUserCalled() {
-        presenter.onSearchUser("user");
+//        presenter.onSearchUser("user");
     }
 
     @Test
@@ -97,10 +118,6 @@ public class ChooseFragmentPresenterTest {
     public void onUserChosen_userLoginIsEmpty() {
         presenter.onSearchUser(null);
         verify(view).makeUserLoginIsNullToast();
-    }
-
-    @Test
-    public void onResponse_called() {
     }
 
     @After
