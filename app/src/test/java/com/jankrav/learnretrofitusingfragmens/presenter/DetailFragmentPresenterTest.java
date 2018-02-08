@@ -31,11 +31,13 @@ import static org.mockito.Mockito.verify;
 public class DetailFragmentPresenterTest {
     @Mock
     GitHubClient client;
+
     @Mock
     DetailRepoFragment view;
 
     @Captor
     ArgumentCaptor<GitHubRepo> repoCaptor;
+
     @Captor
     ArgumentCaptor<GitHubClient.OnDetailDataLoadedListener> interfaceCaptor;
 
@@ -50,7 +52,7 @@ public class DetailFragmentPresenterTest {
     }
 
     @Test
-    public void testOnSelectedRepo_getResponseFromServerUsingAnswer() {
+    public void testOnSelectedRepo_getResponseFromServerUsingAnswer() throws Throwable {
         final GitHubRepo result = new GitHubRepo();
         doAnswer(new Answer() {
             @Override
@@ -77,6 +79,30 @@ public class DetailFragmentPresenterTest {
         assertThat(repoCaptor.getValue(), is(equalTo(result)));
     }
 
+    @Test
+    public void testOnSelectedRepo_getFailureFromServerUsingAnswer() throws Throwable{
+        final Throwable result = new Throwable();
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                final GitHubClient.OnDetailDataLoadedListener listener = invocation.getArgument(2);
+                listener.onFailure(result);
+                return null;
+            }
+        }).when(client).getRepoInfo(anyString(), anyString(), any(GitHubClient.OnDetailDataLoadedListener.class));
+        presenter.onSelectedRepo(login, repoName);
+        verify(client, times(1)).getRepoInfo(anyString(), anyString(),any(GitHubClient.OnDetailDataLoadedListener.class));
+        verify(view).makeFailureToast();
+    }
+
+    @Test
+    public void testOnSelectedRepo_getFailureFromServerUsingCaptor() throws Throwable{
+        final Throwable result = new Throwable();
+        presenter.onSelectedRepo(login, repoName);
+        verify(client, times(1)).getRepoInfo(anyString(), anyString(), interfaceCaptor.capture());
+        interfaceCaptor.getValue().onFailure(result);
+        verify(view).makeFailureToast();
+    }
     @Test
     public void onDetachView_called() throws Exception {
         presenter.onDetachView();

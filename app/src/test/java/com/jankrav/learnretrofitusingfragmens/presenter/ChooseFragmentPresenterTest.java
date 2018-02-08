@@ -19,7 +19,6 @@ import org.mockito.stubbing.Answer;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNotNull;
@@ -69,7 +68,7 @@ public class ChooseFragmentPresenterTest {
         presenter.onSearchUser(login);
         verify(client, times(1))
                 .getReposForUser(anyString(),
-                                    any(GitHubClient.OnChooserDataLoadedListener.class));
+                        any(GitHubClient.OnChooserDataLoadedListener.class));
         verify(view).showInfo(reposCaptor.capture());
         assertThat(results, is(equalTo(reposCaptor.getValue())));
     }
@@ -84,28 +83,53 @@ public class ChooseFragmentPresenterTest {
         verify(view).showInfo(reposCaptor.capture());
         assertThat(reposCaptor.getValue(), is(equalTo(results)));
     }
-//  valid
+
     @Test
-    public void createPresenterObject_checkDoesViewIsNotNull() {
+    public void testOnSearchUser_getFailureFromServerUsingAnswer() throws Throwable {
+        final Throwable result = new Throwable();
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                final GitHubClient.OnChooserDataLoadedListener listener = invocation.getArgument(1);
+                listener.onFailure(result);
+                return null;
+            }
+        }).when(client).getReposForUser(anyString(), any(GitHubClient.OnChooserDataLoadedListener.class));
+        presenter.onSearchUser(login);
+        verify(client).getReposForUser(anyString(), any(GitHubClient.OnChooserDataLoadedListener.class));
+        verify(view).makeFailureToast();
+    }
+
+    @Test
+    public void testOnSearchUser_getFailureFromServerUsingCaptor() throws Throwable {
+        final Throwable result = new Throwable();
+        presenter.onSearchUser(login);
+        verify(client).getReposForUser(anyString(), interfaceCaptor.capture());
+        interfaceCaptor.getValue().onFailure(result);
+        verify(view).makeFailureToast();
+    }
+
+    @Test
+    public void createPresenterObject_checkDoesViewIsNotNull() throws Exception {
         ChooseRepoFragment view = ChooseRepoFragment.newInstance();
         ChooseFragmentPresenter presenter = new ChooseFragmentPresenter(view, client);
         assertNotNull(presenter.getView());
     }
-//  valid
+
     @Test
-    public void onSelectedRepo_callCheckOutToOtherFragment() {
+    public void onSelectedRepo_callCheckOutToOtherFragment() throws Exception {
         presenter.onSelectedRepo("user", "repo");
         verify(view).checkoutToDetailFragment("user", "repo");
     }
-//  valid
+
     @Test
-    public void onDetachView_called() {
+    public void onDetachView_called() throws Exception {
         presenter.onDetachView();
         assertNull(presenter.getView());
     }
-//  valid
+
     @Test
-    public void onUserChosen_userLoginIsEmpty() {
+    public void onUserChosen_userLoginIsEmpty() throws Exception {
         presenter.onSearchUser(null);
         verify(view).makeUserLoginIsNullToast();
     }
