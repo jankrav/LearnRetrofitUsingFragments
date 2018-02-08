@@ -28,7 +28,12 @@ public class ChooseFragmentPresenter {
             client.getReposForUser(user, new GitHubClient.OnChooserDataLoadedListener() {
                 @Override
                 public void onSuccess(List<GitHubRepo> repos) {
-                        onUserChosen(repos);
+                    if (repos!=null){
+                        view.showInfo(repos);
+                        view.makeGoodToast();
+                    } else {
+                        view.makeReposIsNullToast();
+                    }
                 }
 
                 @Override
@@ -41,10 +46,7 @@ public class ChooseFragmentPresenter {
         }
     }
 
-    void onUserChosen(List<GitHubRepo> repos){
-        view.showInfo(repos);
-        view.makeGoodToast();
-    }
+
 
     public void onSelectedRepo(String repoOwnerLogin, String repoName) {
         if ((repoOwnerLogin != null && !repoOwnerLogin.equals("")) &&

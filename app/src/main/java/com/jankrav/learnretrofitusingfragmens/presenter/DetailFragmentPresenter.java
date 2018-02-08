@@ -25,12 +25,18 @@ public class DetailFragmentPresenter {
             client.getRepoInfo(repoOwnerLogin, repoName, new GitHubClient.OnDetailDataLoadedListener() {
                 @Override
                 public void onSuccess(GitHubRepo repo) {
-                    DetailFragmentPresenter.this.onGetInfoFromServer(repo);
+                    if(repo != null){
+                        GitHubRepo responseRepo = repoInfoCheckingToEmptyFields(repo);
+                        view.showInfo(responseRepo);
+                        view.makeGoodToast();
+                    } else {
+                        view.makeRepoIsNullToast();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable t) {
-                    DetailFragmentPresenter.this.view.makeFailureToast();
+                    view.makeFailureToast();
                 }
             });
         } else {
@@ -38,12 +44,8 @@ public class DetailFragmentPresenter {
         }
     }
 
-    void onGetInfoFromServer(GitHubRepo repo){
-        view.showInfo(repoInfoValidation(repo));
-        view.makeGoodToast();
-    }
 
-    private GitHubRepo repoInfoValidation(GitHubRepo repo) {
+    private GitHubRepo repoInfoCheckingToEmptyFields(GitHubRepo repo) {
         if (TextUtils.isEmpty(repo.getName())) {
             repo.setName("no-name-repository");
         }

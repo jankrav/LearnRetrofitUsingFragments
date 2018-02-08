@@ -16,10 +16,15 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,10 +33,15 @@ public class DetailFragmentPresenterTest {
     GitHubClient client;
     @Mock
     DetailRepoFragment view;
-    @Captor
-    ArgumentCaptor<GitHubRepo> captor;
 
-    DetailFragmentPresenter presenter;
+    @Captor
+    ArgumentCaptor<GitHubRepo> repoCaptor;
+    @Captor
+    ArgumentCaptor<GitHubClient.OnDetailDataLoadedListener> interfaceCaptor;
+
+    private DetailFragmentPresenter presenter;
+    private final String login = "User";
+    private final String repoName = "Repo";
 
     @Before
     public void setUp() {
@@ -40,20 +50,31 @@ public class DetailFragmentPresenterTest {
     }
 
     @Test
-    public void someTest() {
+    public void testOnSelectedRepo_getResponseFromServerUsingAnswer() {
+        final GitHubRepo result = new GitHubRepo();
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 final GitHubClient.OnDetailDataLoadedListener listener = invocation.getArgument(2);
-                listener.onSuccess(new GitHubRepo());
-                verify(listener).onSuccess(captor.capture());
-
+                listener.onSuccess(result);
                 return null;
             }
-        }).when(client).getRepoInfo(anyString(),anyString(), any(GitHubClient.OnDetailDataLoadedListener .class));
-        presenter.onGetInfoFromServer(captor.getValue());
-        verify(view).showInfo(captor.getValue());
+        }).when(client).getRepoInfo(anyString(), anyString(), any(GitHubClient.OnDetailDataLoadedListener.class));
 
+        presenter.onSelectedRepo(login, repoName);
+        verify(client, times(1)).getRepoInfo(anyString(), anyString(), any(GitHubClient.OnDetailDataLoadedListener.class));
+        verify(view).showInfo(repoCaptor.capture());
+        assertThat(result, is(equalTo(repoCaptor.getValue())));
+
+    }
+    @Test
+    public void testOnSelectedRepo_getResponseFromServerUsingCaptor() throws Throwable{
+        final GitHubRepo result = new GitHubRepo();
+        presenter.onSelectedRepo(login, repoName);
+        verify(client, times(1)).getRepoInfo(anyString(), anyString(), interfaceCaptor.capture());
+        interfaceCaptor.getValue().onSuccess(result);
+        verify(view).showInfo(repoCaptor.capture());
+        assertThat(repoCaptor.getValue(), is(equalTo(result)));
     }
 
     @Test
@@ -74,23 +95,8 @@ public class DetailFragmentPresenterTest {
         verify(view).makeUserInfoFailureToast();
     }
 
-    @Test
-    public void onResponse_calledGoodToast() {
-
-    }
-
-    @Test
-    public void onResponse_calledRepoIsNullToast() {
-
-    }
-
-    @Test
-    public void onFailure_calledFailureToast() {
-
-    }
-
     @After
-    public void tearDown(){
+    public void tearDown() {
         presenter = null;
     }
 }
