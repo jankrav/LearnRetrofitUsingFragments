@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        App.getComponent().inject(this);
 
         if(savedInstanceState == null){
             // if activity lauch first time then create chooser
@@ -26,5 +28,6 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.fragment_container, chooser);
             transaction.commit();
         }
+
     }
 }
