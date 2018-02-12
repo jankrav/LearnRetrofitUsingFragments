@@ -6,13 +6,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    // service's can be different, that's why I created
-    // instance with Object type
-    private static Object instance;
     private static final String BASE_URL = "https://api.github.com";
     private static final Class<GitHubService> DEFAULT_SERVICE_CLIENT = GitHubService.class;
-
-    private ServiceGenerator(){}
+    private static GitHubService service = createService(DEFAULT_SERVICE_CLIENT);
 
     private static <S> S createService(Class<S> serviceClass) {
         return new Retrofit.Builder()
@@ -25,13 +21,8 @@ public class ServiceGenerator {
                 .create(serviceClass);
     }
 
-    public static synchronized GitHubService getDefaultService() {
-        if(instance == null)
-            instance = createService(DEFAULT_SERVICE_CLIENT);
-        return (GitHubService) instance;
+    public GitHubService getDefaultService() {
+         return service;
     }
-
-
-
 
 }

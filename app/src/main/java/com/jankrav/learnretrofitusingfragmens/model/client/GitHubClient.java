@@ -10,15 +10,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GitHubClient {
-    private static final GitHubService service = ServiceGenerator.getDefaultService();
-
-    public GitHubClient() {
+    private GitHubService service;
+    public GitHubClient(GitHubService service) {
+        this.service = service;
     }
 
-    public static GitHubClient newInstance() {
-        GitHubClient client = new GitHubClient();
-        return client;
-    }
     public void getReposForUser(String userLogin, final OnChooserDataLoadedListener listener) {
             service.reposForUser(userLogin).enqueue(new Callback<List<GitHubRepo>>() {
 
