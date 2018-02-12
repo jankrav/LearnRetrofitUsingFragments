@@ -2,7 +2,6 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
-import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
@@ -60,17 +57,11 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((App) getActivity().getApplication()).getComponent().inject(this);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
         initFields(view);
-        presenter = new ChooseFragmentPresenter(this, GitHubClient.newInstance());
+        presenter = new ChooseFragmentPresenter(this);
         return view;
     }
 

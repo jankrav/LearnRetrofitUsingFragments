@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.jankrav.learnretrofitusingfragmens.R;
-import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseRepoFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             // if activity lauch first time then create chooser
-            ((App)getApplication()).getComponent().inject(this);
             ChooseRepoFragment chooser = ChooseRepoFragment.newInstance();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, chooser);

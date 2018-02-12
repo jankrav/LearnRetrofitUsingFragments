@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
 
 
@@ -56,7 +55,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         View view = inflater.inflate(R.layout.fragment_detail_repo, container, false);
         initFields(view);
 
-        presenter = new DetailFragmentPresenter(this, GitHubClient.newInstance());
+        presenter = new DetailFragmentPresenter(this);
 
         if (savedInstanceState == null) {
             repoOwnerLogin = getArguments().getString(ChooseRepoFragment.REPO_OWNER_LOGIN);

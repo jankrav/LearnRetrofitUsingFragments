@@ -1,18 +1,21 @@
 package com.jankrav.learnretrofitusingfragmens.presenter;
 
+import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.ChooseFragmentView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ChooseFragmentPresenter {
-    private GitHubClient client;
+    @Inject GitHubClient client;
     private ChooseFragmentView view;
 
-    public ChooseFragmentPresenter(ChooseFragmentView view, GitHubClient client) {
+    public ChooseFragmentPresenter(ChooseFragmentView view) {
         this.view = view;
-        this.client = client;
+        App.getComponent().inject(this);
     }
 
     public ChooseFragmentView getView() {

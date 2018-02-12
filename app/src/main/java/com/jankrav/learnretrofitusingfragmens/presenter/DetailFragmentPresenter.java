@@ -2,17 +2,20 @@ package com.jankrav.learnretrofitusingfragmens.presenter;
 
 import android.text.TextUtils;
 
+import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.view.fragments.DetailFragmentView;
 
+import javax.inject.Inject;
+
 public class DetailFragmentPresenter {
-    private GitHubClient client;
+    @Inject GitHubClient client;
     private DetailFragmentView view;
 
-    public DetailFragmentPresenter(DetailFragmentView view, GitHubClient client) {
+    public DetailFragmentPresenter(DetailFragmentView view) {
         this.view = view;
-        this.client = client;
+        App.getComponent().inject(this);
     }
 
     public DetailFragmentView getView() {
