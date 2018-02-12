@@ -32,9 +32,8 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
-    @Inject
-    ChooseFragmentPresenter presenter;
-
+    @Inject ChooseFragmentPresenter presenter;
+    @Inject DetailRepoFragment detail;
 
     private TextView loginTextView;
     private ImageView avatarImageView;
@@ -95,8 +94,8 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         bundle.putString(REPO_OWNER_LOGIN, repoOwnerLogin);
         bundle.putString(REPO_NAME, repoName);
 
-        DetailRepoFragment detail =
-                DetailRepoFragment.newInstance();
+//        DetailRepoFragment detail =
+//                DetailRepoFragment.newInstance();
 
         detail.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction()

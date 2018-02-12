@@ -26,8 +26,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
     private TextView name, language, description, watchers, defaultBranch;
 
-    @Inject
-    DetailFragmentPresenter presenter;
+    @Inject DetailFragmentPresenter presenter;
 
     private String repoOwnerLogin;
     private String repoName;
