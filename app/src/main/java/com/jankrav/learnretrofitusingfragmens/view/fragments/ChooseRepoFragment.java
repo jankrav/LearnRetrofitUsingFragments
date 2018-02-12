@@ -2,6 +2,7 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
 import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
@@ -20,6 +22,8 @@ import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 
 /**
@@ -29,6 +33,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
+    @Inject
     private ChooseFragmentPresenter presenter;
 
 
@@ -55,6 +60,12 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static ChooseRepoFragment newInstance() {
         ChooseRepoFragment f = new ChooseRepoFragment();
         return f;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
     }
 
     @Override
