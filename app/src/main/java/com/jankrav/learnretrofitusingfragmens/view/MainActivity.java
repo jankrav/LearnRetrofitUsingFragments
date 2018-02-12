@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             // if activity lauch first time then create chooser
             ChooseRepoFragment chooser = ChooseRepoFragment.newInstance();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

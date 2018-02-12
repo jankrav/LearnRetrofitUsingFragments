@@ -3,6 +3,7 @@ package com.jankrav.learnretrofitusingfragmens.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jankrav.learnretrofitusingfragmens.R;
+import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
-import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.DetailFragmentPresenter;
+
+import javax.inject.Inject;
 
 
 /**
@@ -23,7 +26,8 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
 
     private TextView name, language, description, watchers, defaultBranch;
 
-    private DetailFragmentPresenter presenter;
+    @Inject
+    DetailFragmentPresenter presenter;
 
     private String repoOwnerLogin;
     private String repoName;
@@ -39,6 +43,11 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
     }
 
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((App)getActivity().getApplication()).getComponent().inject(this);
+    }
 
     private void initFields(View view) {
         if (view != null) {
@@ -58,7 +67,7 @@ public class DetailRepoFragment extends Fragment implements DetailFragmentView {
         View view = inflater.inflate(R.layout.fragment_detail_repo, container, false);
         initFields(view);
 
-        presenter = new DetailFragmentPresenter(this, GitHubClient.newInstance());
+//        presenter = new DetailFragmentPresenter(this, GitHubClient.newInstance());
 
         if (savedInstanceState == null) {
             repoOwnerLogin = getArguments().getString(ChooseRepoFragment.REPO_OWNER_LOGIN);

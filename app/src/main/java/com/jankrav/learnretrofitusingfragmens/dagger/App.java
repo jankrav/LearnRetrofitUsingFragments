@@ -5,9 +5,9 @@ import android.app.Application;
 import com.jankrav.learnretrofitusingfragmens.dagger.module.AppModule;
 
 public class App extends Application {
-    private static AppComponent component;
+    private AppComponent component;
 
-    public static AppComponent getComponent(){
+    public AppComponent getComponent(){
         return component;
     }
 
