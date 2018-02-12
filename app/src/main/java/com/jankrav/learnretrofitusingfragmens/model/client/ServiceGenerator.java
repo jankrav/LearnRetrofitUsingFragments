@@ -8,9 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
     private static final String BASE_URL = "https://api.github.com";
     private static final Class<GitHubService> DEFAULT_SERVICE_CLIENT = GitHubService.class;
-    private static GitHubService service = createService(DEFAULT_SERVICE_CLIENT);
 
-    private static <S> S createService(Class<S> serviceClass) {
+    private <S> S createService(Class<S> serviceClass) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -21,8 +20,7 @@ public class ServiceGenerator {
                 .create(serviceClass);
     }
 
-    public GitHubService getDefaultService() {
-         return service;
+    public GitHubService getDefaultService(){
+        return createService(DEFAULT_SERVICE_CLIENT);
     }
-
 }
