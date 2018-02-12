@@ -16,13 +16,12 @@ import android.widget.Toast;
 import com.jankrav.learnretrofitusingfragmens.R;
 import com.jankrav.learnretrofitusingfragmens.dagger.App;
 import com.jankrav.learnretrofitusingfragmens.model.GitHubRepo;
+import com.jankrav.learnretrofitusingfragmens.model.client.GitHubClient;
 import com.jankrav.learnretrofitusingfragmens.presenter.ChooseFragmentPresenter;
 import com.jankrav.learnretrofitusingfragmens.view.adapters.GitHubRepoAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 
 /**
@@ -32,8 +31,8 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
     public static final String REPO_NAME = "REPO_NAME";
     public static final String REPO_OWNER_LOGIN = "REPO_OWNER_LOGIN";
 
-    @Inject ChooseFragmentPresenter presenter;
-    @Inject DetailRepoFragment detail;
+    private ChooseFragmentPresenter presenter;
+
 
     private TextView loginTextView;
     private ImageView avatarImageView;
@@ -71,7 +70,7 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choose_repo, container, false);
         initFields(view);
-//        presenter = new ChooseFragmentPresenter(this, GitHubClient.newInstance());
+        presenter = new ChooseFragmentPresenter(this, GitHubClient.newInstance());
         return view;
     }
 
@@ -94,8 +93,8 @@ public class ChooseRepoFragment extends Fragment implements ChooseFragmentView {
         bundle.putString(REPO_OWNER_LOGIN, repoOwnerLogin);
         bundle.putString(REPO_NAME, repoName);
 
-//        DetailRepoFragment detail =
-//                DetailRepoFragment.newInstance();
+        DetailRepoFragment detail =
+                DetailRepoFragment.newInstance();
 
         detail.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction()
