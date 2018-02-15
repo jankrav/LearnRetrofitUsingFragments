@@ -23,10 +23,10 @@ public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Ho
         this.presenter = presenter;
     }
 
-    protected class Holder extends RecyclerView.ViewHolder {
+    class Holder extends RecyclerView.ViewHolder {
         private TextView repoName;
 
-        public Holder(View itemView) {
+        Holder(View itemView) {
             super(itemView);
             repoName = itemView.findViewById(R.id.list_item_repo_name);
         }
@@ -39,15 +39,16 @@ public class GitHubRepoAdapter extends RecyclerView.Adapter<GitHubRepoAdapter.Ho
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, final int position) {
+    public void onBindViewHolder(Holder holder, int position) {
+        final int pos = position;
         holder.repoName.setText(repos.get(position).getName());
         holder.repoName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (presenter != null) {
                     presenter.onSelectedRepo(
-                            repos.get(position).getOwner().getLogin(),
-                            repos.get(position).getName());
+                            repos.get(pos).getOwner().getLogin(),
+                            repos.get(pos).getName());
                 }
             }
         });
